@@ -1,0 +1,22 @@
+# PNPM Workspace Configuration
+# This file defines all packages in the monorepo that should be managed by PNPM
+
+packages:
+  # Frontend and backend applications
+  - 'apps/*'
+
+  # Microservices (Python-based services)
+  - 'services/*'
+
+  # Shared packages (TypeScript libraries)
+  - 'packages/*'
+
+# Exclude patterns (optional)
+# Add any directories that should not be treated as packages
+exclude:
+  - '**/node_modules/**'
+  - '**/dist/**'
+  - '**/build/**'
+  - '**/__pycache__/**'
+  - '**/coverage/**'
+  - '**/.pytest_cache/**'

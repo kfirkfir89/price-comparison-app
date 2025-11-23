@@ -1,0 +1,296 @@
+# Israeli Local Shops Configuration
+# These shops ship only within Israel and show prices in ILS (Israeli Shekel)
+# All shops are enabled by default for MVP phase
+
+shops:
+  # Electronics & Technology Retailers
+  - id: ksp
+    name: "KSP"
+    url: "https://ksp.co.il"
+    country: israel
+    currency: ILS
+    type: local
+    enabled: true
+    scraper_type: playwright  # Requires JavaScript rendering
+    rate_limit:
+      requests_per_minute: 10
+      delay_between_requests: 6  # seconds
+    categories:
+      - electronics
+      - computers
+      - appliances
+      - smartphones
+    notes: "Major electronics retailer with extensive product catalog"
+
+  - id: ivory
+    name: "Ivory"
+    url: "https://ivory.co.il"
+    country: israel
+    currency: ILS
+    type: local
+    enabled: true
+    scraper_type: playwright
+    rate_limit:
+      requests_per_minute: 10
+      delay_between_requests: 6
+    categories:
+      - electronics
+      - computers
+      - smartphones
+      - gaming
+    notes: "Popular electronics and computer hardware retailer"
+
+  - id: bug
+    name: "Bug"
+    url: "https://bug.co.il"
+    country: israel
+    currency: ILS
+    type: local
+    enabled: true
+    scraper_type: playwright
+    rate_limit:
+      requests_per_minute: 10
+      delay_between_requests: 6
+    categories:
+      - electronics
+      - computers
+      - appliances
+      - smartphones
+    notes: "Electronics chain with competitive pricing"
+
+  - id: zap
+    name: "Zap"
+    url: "https://zap.co.il"
+    country: israel
+    currency: ILS
+    type: local
+    enabled: true
+    scraper_type: playwright
+    rate_limit:
+      requests_per_minute: 15
+      delay_between_requests: 4
+    categories:
+      - price_comparison  # Zap is itself a price comparison site
+      - electronics
+      - appliances
+      - general
+    notes: "Price comparison aggregator - scrape listed shops"
+
+  - id: idigital
+    name: "iDigital"
+    url: "https://idigital.co.il"
+    country: israel
+    currency: ILS
+    type: local
+    enabled: true
+    scraper_type: playwright
+    rate_limit:
+      requests_per_minute: 10
+      delay_between_requests: 6
+    categories:
+      - electronics
+      - apple_products
+      - smartphones
+      - accessories
+    notes: "Apple premium reseller and electronics store"
+
+  # Shopping Malls & Department Stores
+  - id: azrieli
+    name: "Azrieli Online"
+    url: "https://azrieli.com"
+    country: israel
+    currency: ILS
+    type: local
+    enabled: true
+    scraper_type: playwright
+    rate_limit:
+      requests_per_minute: 15
+      delay_between_requests: 4
+    categories:
+      - fashion
+      - electronics
+      - home
+      - beauty
+      - general
+    notes: "Major shopping mall chain with online store"
+
+  - id: terminalx
+    name: "Terminal X"
+    url: "https://www.terminal-x.com"
+    country: israel
+    currency: ILS
+    type: local
+    enabled: true
+    scraper_type: playwright
+    rate_limit:
+      requests_per_minute: 15
+      delay_between_requests: 4
+    categories:
+      - fashion
+      - clothing
+      - shoes
+      - accessories
+    notes: "Leading fashion and apparel online retailer"
+
+  # Supermarkets & General Retail
+  - id: yochananof
+    name: "Yochananof"
+    url: "https://www.yochananof.co.il"
+    country: israel
+    currency: ILS
+    type: local
+    enabled: true
+    scraper_type: playwright
+    rate_limit:
+      requests_per_minute: 20
+      delay_between_requests: 3
+    categories:
+      - groceries
+      - food
+      - household
+      - general
+    notes: "Supermarket chain with online ordering"
+
+  - id: shufersal
+    name: "Shufersal Online"
+    url: "https://www.shufersal.co.il"
+    country: israel
+    currency: ILS
+    type: local
+    enabled: true
+    scraper_type: playwright
+    rate_limit:
+      requests_per_minute: 20
+      delay_between_requests: 3
+    categories:
+      - groceries
+      - food
+      - household
+      - electronics
+      - general
+    notes: "Israel's largest supermarket chain"
+
+  - id: ampm
+    name: "AM:PM"
+    url: "https://www.am-pm.co.il"
+    country: israel
+    currency: ILS
+    type: local
+    enabled: true
+    scraper_type: playwright
+    rate_limit:
+      requests_per_minute: 15
+      delay_between_requests: 4
+    categories:
+      - convenience
+      - food
+      - household
+      - general
+    notes: "Convenience store chain with online presence"
+
+  # Fashion & Lifestyle
+  - id: mashbir
+    name: "Mashbir Lazarchan"
+    url: "https://www.mashbir.co.il"
+    country: israel
+    currency: ILS
+    type: local
+    enabled: true
+    scraper_type: playwright
+    rate_limit:
+      requests_per_minute: 15
+      delay_between_requests: 4
+    categories:
+      - fashion
+      - clothing
+      - beauty
+      - home
+      - general
+    notes: "Department store with diverse product range"
+
+  - id: castro
+    name: "Castro"
+    url: "https://www.castro.co.il"
+    country: israel
+    currency: ILS
+    type: local
+    enabled: true
+    scraper_type: playwright
+    rate_limit:
+      requests_per_minute: 15
+      delay_between_requests: 4
+    categories:
+      - fashion
+      - clothing
+      - shoes
+      - accessories
+    notes: "Israeli fashion brand and retailer"
+
+  - id: golf
+    name: "Golf & Co"
+    url: "https://www.golf.co.il"
+    country: israel
+    currency: ILS
+    type: local
+    enabled: true
+    scraper_type: playwright
+    rate_limit:
+      requests_per_minute: 15
+      delay_between_requests: 4
+    categories:
+      - fashion
+      - clothing
+      - shoes
+      - sportswear
+    notes: "Fashion and sportswear retailer"
+
+  - id: fox
+    name: "FOX Home"
+    url: "https://www.fox.co.il"
+    country: israel
+    currency: ILS
+    type: local
+    enabled: true
+    scraper_type: playwright
+    rate_limit:
+      requests_per_minute: 15
+      delay_between_requests: 4
+    categories:
+      - home
+      - furniture
+      - decor
+      - lifestyle
+    notes: "Home goods and lifestyle products"
+
+  # Home Improvement
+  - id: homedepot_il
+    name: "Home Depot Israel"
+    url: "https://www.homedepot.co.il"
+    country: israel
+    currency: ILS
+    type: local
+    enabled: true
+    scraper_type: playwright
+    rate_limit:
+      requests_per_minute: 10
+      delay_between_requests: 6
+    categories:
+      - home_improvement
+      - tools
+      - garden
+      - hardware
+    notes: "Home improvement and hardware retailer"
+
+# Configuration metadata
+metadata:
+  version: "1.0.0"
+  last_updated: "2024-01-19"
+  total_shops: 15
+  country: israel
+  default_currency: ILS
+  scraping_notes: |
+    - Most Israeli sites require JavaScript rendering (use Playwright)
+    - Respect rate limits to avoid IP bans
+    - Some sites may require session cookies
+    - Hebrew text encoding: UTF-8
+    - Prices may include or exclude VAT (17%) - check per site

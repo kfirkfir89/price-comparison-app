@@ -1,0 +1,250 @@
+# Amazon.com Global Marketplace Configuration
+# DISABLED FOR MVP - Enable in Phase 3
+# Amazon is the world's largest e-commerce platform with international shipping
+
+shop:
+  id: amazon_com
+  name: "Amazon.com"
+  url: "https://www.amazon.com"
+  country: usa
+  base_currency: USD
+  type: global
+  enabled: false  # Disabled for MVP - will enable in Phase 3
+  scraper_type: playwright  # Requires JavaScript + anti-bot measures
+  is_marketplace: true  # Has multiple sellers
+
+  # Rate limiting - Amazon is strict about scraping
+  rate_limit:
+    requests_per_minute: 5
+    delay_between_requests: 12  # seconds
+    use_proxy: true  # Recommended to rotate IPs
+    respect_robots_txt: true
+
+  # Categories available
+  categories:
+    - electronics
+    - computers
+    - smartphones
+    - home
+    - fashion
+    - books
+    - toys
+    - sports
+    - beauty
+    - grocery
+    - automotive
+    - general
+
+# International Shipping Configuration
+shipping:
+  # Countries Amazon ships to
+  ships_to:
+    - israel
+    - canada
+    - united_kingdom
+    - germany
+    - france
+    - italy
+    - spain
+    - japan
+    - australia
+    - mexico
+    - brazil
+    - india
+    - singapore
+    - south_korea
+    - netherlands
+    - belgium
+    - sweden
+    - poland
+    - austria
+    - switzerland
+
+  # Shipping details by destination
+  shipping_countries:
+    israel:
+      available: true
+      methods:
+        standard:
+          name: "AmazonGlobal Standard Shipping"
+          estimated_days: 10-14
+          typical_cost_range:
+            min: 15
+            max: 35
+            currency: USD
+        expedited:
+          name: "AmazonGlobal Expedited Shipping"
+          estimated_days: 5-7
+          typical_cost_range:
+            min: 25
+            max: 55
+            currency: USD
+      free_shipping_threshold: 125  # USD
+      restrictions:
+        - "Some items cannot be shipped internationally"
+        - "Lithium batteries restrictions apply"
+        - "Food items may be restricted"
+
+  # General shipping notes
+  notes: |
+    - Shipping costs calculated at checkout
+    - Import fees may be collected at checkout or upon delivery
+    - AmazonGlobal eligible items only
+    - Delivery times are estimates and may vary
+
+# Import Rules and Customs
+import_rules:
+  israel:
+    # Israel customs regulations
+    duty_free_threshold: 75  # USD - no duty below this
+    vat_rate: 0.17  # 17% VAT on all imports
+    duty_calculation: "varies_by_category"  # Electronics: 0-12%, Clothing: 12%, etc.
+
+    # Additional fees
+    additional_fees:
+      handling_fee: 30  # ILS - customs clearance
+      vat_applies_to: "product_price + shipping + duty"
+
+    # Category-specific duties
+    category_duties:
+      electronics: 0.12  # 12%
+      smartphones: 0.12
+      computers: 0.05  # 5%
+      clothing: 0.12
+      shoes: 0.12
+      books: 0.00  # Duty free
+      toys: 0.12
+      cosmetics: 0.12
+
+    # Prohibited/restricted items
+    restrictions:
+      prohibited:
+        - "Weapons and ammunition"
+        - "Illegal drugs"
+        - "Counterfeit goods"
+      restricted:
+        - "Large lithium batteries"
+        - "Some food items"
+        - "Certain electronics (check regulations)"
+
+    notes: |
+      - Import fees are estimates and may vary
+      - Israel customs may open packages for inspection
+      - Delivery person may collect payment for duties/VAT
+      - Keep receipts for warranty purposes
+
+# Anti-Detection & Scraping Strategy
+scraping:
+  anti_detection:
+    rotate_user_agents: true
+    use_residential_proxies: true
+    randomize_delays: true
+    session_cookies_required: true
+    captcha_service: "2captcha"  # For CAPTCHA solving
+
+  selectors:
+    # CSS selectors for scraping (update as Amazon changes their layout)
+    product_title: "span#productTitle"
+    price: "span.a-price span.a-offscreen"
+    availability: "div#availability span"
+    rating: "span.a-icon-alt"
+    image: "img#landingImage"
+    description: "div#feature-bullets"
+
+  notes: |
+    - Amazon actively blocks scrapers
+    - Use residential proxies and rotate IPs
+    - Implement CAPTCHA solving
+    - Monitor for layout changes
+    - Consider using Amazon Product Advertising API for production
+
+# API Integration (Future)
+api:
+  product_advertising_api:
+    available: true
+    recommended: true
+    notes: |
+      - Official Amazon API for product data
+      - Requires approval and affiliate account
+      - Better than scraping for production
+      - Has rate limits but more reliable
+    documentation: "https://webservices.amazon.com/paapi5/documentation/"
+
+# Affiliate Program
+affiliate:
+  program_name: "Amazon Associates"
+  available_in:
+    - usa
+    - uk
+    - canada
+    - germany
+    - france
+    - japan
+    - italy
+    - spain
+    - india
+    - brazil
+  commission_rate: "1-10%"  # Varies by category
+  notes: |
+    - Sign up required for each Amazon region
+    - Commission rates vary by product category
+    - Must disclose affiliate relationship
+    - Links expire after 24 hours (cart persistence)
+
+# Other Amazon Regions (for future expansion)
+regional_sites:
+  - id: amazon_uk
+    url: "https://www.amazon.co.uk"
+    country: united_kingdom
+    currency: GBP
+    enabled: false
+
+  - id: amazon_de
+    url: "https://www.amazon.de"
+    country: germany
+    currency: EUR
+    enabled: false
+
+  - id: amazon_fr
+    url: "https://www.amazon.fr"
+    country: france
+    currency: EUR
+    enabled: false
+
+  - id: amazon_it
+    url: "https://www.amazon.it"
+    country: italy
+    currency: EUR
+    enabled: false
+
+  - id: amazon_es
+    url: "https://www.amazon.es"
+    country: spain
+    currency: EUR
+    enabled: false
+
+  - id: amazon_ca
+    url: "https://www.amazon.ca"
+    country: canada
+    currency: CAD
+    enabled: false
+
+  - id: amazon_jp
+    url: "https://www.amazon.co.jp"
+    country: japan
+    currency: JPY
+    enabled: false
+
+# Configuration metadata
+metadata:
+  version: "1.0.0"
+  last_updated: "2024-01-19"
+  status: "disabled_mvp"
+  phase: "phase_3"
+  priority: "high"
+  implementation_notes: |
+    - Enable after Phase 1-2 completion
+    - Requires robust anti-detection system
+    - Consider API integration before scraping
+    - Test thoroughly with small product set first
+    - Monitor for Amazon policy changes

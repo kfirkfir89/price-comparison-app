@@ -1,0 +1,179 @@
+version: '3.8'
+
+# ═══════════════════════════════════════════════════════════════
+# PRICE COMPARISON PLATFORM - DOCKER COMPOSE INFRASTRUCTURE
+# ═══════════════════════════════════════════════════════════════
+#
+# This file contains all infrastructure services required for the
+# price comparison platform. Application services (API, Web, etc.)
+# will be added in later development phases.
+#
+# Services included:
+# - MongoDB 7.0 - Primary database
+# - Redis 7.2 - Cache layer
+# - Meilisearch 1.5 - Keyword search engine
+# - Qdrant 1.7 - Vector search engine
+# - RabbitMQ 3.12 - Message queue
+#
+# ═══════════════════════════════════════════════════════════════
+
+services:
+  # ═══════════════════════════════════════════════════════════════
+  # MONGODB - PRIMARY DATABASE
+  # ═══════════════════════════════════════════════════════════════
+  mongodb:
+    image: mongo:7.0
+    container_name: price-comparison-mongodb
+    restart: unless-stopped
+    ports:
+      - "${MONGODB_PORT:-27017}:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER:-admin}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD:-changeme}
+      MONGO_INITDB_DATABASE: ${MONGODB_DATABASE:-price_comparison}
+    volumes:
+      - mongodb_data:/data/db
+      - mongodb_config:/data/configdb
+    networks:
+      - price-comparison-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    command: mongod --auth
+
+  # ═══════════════════════════════════════════════════════════════
+  # REDIS - CACHE LAYER
+  # ═══════════════════════════════════════════════════════════════
+  redis:
+    image: redis:7.2-alpine
+    container_name: price-comparison-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-changeme}
+    volumes:
+      - redis_data:/data
+    networks:
+      - price-comparison-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    command: redis-server --requirepass ${REDIS_PASSWORD:-changeme} --appendonly yes
+
+  # ═══════════════════════════════════════════════════════════════
+  # MEILISEARCH - KEYWORD SEARCH ENGINE
+  # ═══════════════════════════════════════════════════════════════
+  meilisearch:
+    image: getmeili/meilisearch:v1.5
+    container_name: price-comparison-meilisearch
+    restart: unless-stopped
+    ports:
+      - "${MEILISEARCH_PORT:-7700}:7700"
+    environment:
+      MEILI_MASTER_KEY: ${MEILISEARCH_MASTER_KEY:-changeme_master_key_min_16_chars}
+      MEILI_ENV: ${MEILISEARCH_ENV:-development}
+      MEILI_HTTP_ADDR: 0.0.0.0:7700
+      MEILI_DB_PATH: /meili_data
+    volumes:
+      - meilisearch_data:/meili_data
+    networks:
+      - price-comparison-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7700/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 20s
+
+  # ═══════════════════════════════════════════════════════════════
+  # QDRANT - VECTOR SEARCH ENGINE
+  # ═══════════════════════════════════════════════════════════════
+  qdrant:
+    image: qdrant/qdrant:v1.7.4
+    container_name: price-comparison-qdrant
+    restart: unless-stopped
+    ports:
+      - "${QDRANT_HTTP_PORT:-6333}:6333"  # HTTP API
+      - "${QDRANT_GRPC_PORT:-6334}:6334"  # gRPC API
+    environment:
+      QDRANT__SERVICE__HTTP_PORT: 6333
+      QDRANT__SERVICE__GRPC_PORT: 6334
+    volumes:
+      - qdrant_data:/qdrant/storage
+    networks:
+      - price-comparison-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6333/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 20s
+
+  # ═══════════════════════════════════════════════════════════════
+  # RABBITMQ - MESSAGE QUEUE
+  # ═══════════════════════════════════════════════════════════════
+  rabbitmq:
+    image: rabbitmq:3.12-management-alpine
+    container_name: price-comparison-rabbitmq
+    restart: unless-stopped
+    ports:
+      - "${RABBITMQ_PORT:-5672}:5672"      # AMQP port
+      - "${RABBITMQ_MGMT_PORT:-15672}:15672"  # Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-admin}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-changeme}
+      RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_VHOST:-price_comparison}
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+      - rabbitmq_logs:/var/log/rabbitmq
+    networks:
+      - price-comparison-network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+# ═══════════════════════════════════════════════════════════════
+# NETWORKS
+# ═══════════════════════════════════════════════════════════════
+networks:
+  price-comparison-network:
+    driver: bridge
+    name: price-comparison-network
+
+# ═══════════════════════════════════════════════════════════════
+# VOLUMES - PERSISTENT DATA STORAGE
+# ═══════════════════════════════════════════════════════════════
+volumes:
+  # MongoDB volumes
+  mongodb_data:
+    name: price-comparison-mongodb-data
+  mongodb_config:
+    name: price-comparison-mongodb-config
+
+  # Redis volume
+  redis_data:
+    name: price-comparison-redis-data
+
+  # Meilisearch volume
+  meilisearch_data:
+    name: price-comparison-meilisearch-data
+
+  # Qdrant volume
+  qdrant_data:
+    name: price-comparison-qdrant-data
+
+  # RabbitMQ volumes
+  rabbitmq_data:
+    name: price-comparison-rabbitmq-data
+  rabbitmq_logs:
+    name: price-comparison-rabbitmq-logs

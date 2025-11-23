@@ -1,0 +1,328 @@
+# AliExpress Global Marketplace Configuration
+# DISABLED FOR MVP - Enable in Phase 3
+# AliExpress is Alibaba's B2C platform shipping worldwide from China
+
+shop:
+  id: aliexpress
+  name: "AliExpress"
+  url: "https://www.aliexpress.com"
+  country: china
+  base_currency: USD  # Displays in multiple currencies but processes in USD
+  type: global
+  enabled: false  # Disabled for MVP - will enable in Phase 3
+  scraper_type: playwright  # Heavy JavaScript site
+  is_marketplace: true  # Thousands of individual sellers
+
+  # Rate limiting
+  rate_limit:
+    requests_per_minute: 8
+    delay_between_requests: 8  # seconds
+    use_proxy: true  # Recommended for stability
+    respect_robots_txt: true
+
+  # Categories available
+  categories:
+    - electronics
+    - smartphones
+    - computers
+    - fashion
+    - home
+    - toys
+    - beauty
+    - jewelry
+    - automotive
+    - sports
+    - tools
+    - general
+
+  # Platform characteristics
+  characteristics:
+    - "Free shipping on most items"
+    - "Buyer protection program"
+    - "Long delivery times (2-8 weeks)"
+    - "Prices often very competitive"
+    - "Quality varies by seller"
+    - "Multiple currency display options"
+
+# International Shipping Configuration
+shipping:
+  # AliExpress ships to almost every country
+  ships_to: worldwide
+  coverage: "200+ countries"
+
+  # Shipping methods
+  methods:
+    aliexpress_standard:
+      name: "AliExpress Standard Shipping"
+      estimated_days: 15-45
+      tracking: true
+      cost: "Usually free"
+      reliability: "medium"
+
+    epacket:
+      name: "ePacket"
+      estimated_days: 15-30
+      tracking: true
+      cost: "Usually free or low cost"
+      reliability: "medium-high"
+      available_for:
+        - usa
+        - canada
+        - australia
+        - israel
+        - many_others
+
+    aliexpress_premium:
+      name: "AliExpress Premium Shipping"
+      estimated_days: 10-20
+      tracking: true
+      cost: "Usually free on eligible items"
+      reliability: "high"
+
+    dhl_fedex_express:
+      name: "DHL/FedEx Express"
+      estimated_days: 5-12
+      tracking: true
+      cost: "20-80 USD (varies by item weight/size)"
+      reliability: "very-high"
+      notes: "Fastest but more expensive"
+
+  # Shipping details for Israel
+  israel_specific:
+    available: true
+    free_shipping_common: true
+    typical_methods:
+      - "AliExpress Standard Shipping (20-40 days)"
+      - "ePacket (15-30 days)"
+      - "Yanwen (15-35 days)"
+      - "China Post (25-60 days)"
+
+    average_delivery_days: 25
+    fast_delivery_days: 15
+    slow_delivery_days: 45
+
+    notes: |
+      - Free shipping on 90% of items
+      - Delivery times vary greatly
+      - Track packages through AliExpress app
+      - Some sellers offer expedited shipping for a fee
+
+# Import Rules and Customs
+import_rules:
+  general:
+    notes: |
+      - Most items ship from China
+      - Sellers often mark packages as "gift" to reduce customs fees
+      - Small value items may avoid customs inspection
+      - Buyer responsible for import duties in most countries
+
+  israel:
+    duty_free_threshold: 75  # USD
+    vat_rate: 0.17  # 17%
+    typical_experience: |
+      - Many packages under $75 pass customs without fees
+      - Packages marked as "gift" may receive preferential treatment
+      - Israel Post may charge handling fee even on low-value items
+      - Delivery person collects payment for taxes/fees upon delivery
+
+    handling_fee: 30  # ILS - if customs processing required
+
+    category_duties:
+      electronics: 0.12
+      smartphones: 0.12
+      clothing: 0.12
+      toys: 0.12
+      jewelry: 0.12
+      cosmetics: 0.12
+
+    tips:
+      - "Check seller ratings before ordering"
+      - "Order multiple small packages instead of one large one"
+      - "Use AliExpress buyer protection"
+      - "Document everything in case of disputes"
+
+# Buyer Protection
+buyer_protection:
+  available: true
+  coverage_period: "60-90 days"
+  features:
+    - "Full refund if item not received"
+    - "Full or partial refund if item not as described"
+    - "Dispute resolution system"
+    - "Escrow payment system (money held until delivery confirmed)"
+
+  notes: |
+    - Open disputes within protection period
+    - Provide photo/video evidence for claims
+    - Communicate through AliExpress platform
+    - Platform generally favors buyers in disputes
+
+# Pricing & Currency
+pricing:
+  display_currencies:
+    - USD
+    - EUR
+    - GBP
+    - ILS
+    - RUB
+    - BRL
+    - AUD
+    - many_others
+
+  price_characteristics:
+    - "Often 30-70% cheaper than local retail"
+    - "Prices vary by seller for same item"
+    - "Bulk discounts common"
+    - "Frequent sales events (11.11, Black Friday)"
+    - "Coupons and coins system for discounts"
+
+  notes: |
+    - Prices shown in user's preferred currency
+    - Actual charge may vary slightly due to exchange rates
+    - Some sellers inflate prices then offer "discounts"
+    - Compare multiple sellers for same product
+
+# Seller Quality Indicators
+seller_metrics:
+  important_factors:
+    - seller_rating: "Look for 95%+ positive feedback"
+    - number_of_orders: "Higher is better (thousands+)"
+    - response_time: "Fast responses indicate good service"
+    - dispute_rate: "Lower is better"
+    - store_years: "Older stores more reliable"
+
+  trusted_seller_badges:
+    - "Top Brand"
+    - "Choice"
+    - "AliExpress Selection"
+
+# Anti-Detection & Scraping Strategy
+scraping:
+  complexity: "high"
+  challenges:
+    - "Heavy use of JavaScript/React"
+    - "Anti-bot protection (Akamai)"
+    - "Frequent layout changes"
+    - "Region-based content variations"
+    - "CAPTCHA challenges"
+
+  anti_detection:
+    rotate_user_agents: true
+    use_residential_proxies: true
+    randomize_delays: true
+    session_cookies_required: true
+    browser_fingerprinting: true
+    captcha_service: "2captcha"
+
+  selectors:
+    # Note: These change frequently
+    product_title: "[class*='Product_ProductTitle']"
+    price: "[class*='Product_Price']"
+    shipping: "[class*='ShippingInfo']"
+    seller_info: "[class*='SellerInfo']"
+    rating: "[class*='Rating']"
+    orders: "[class*='OrderCount']"
+
+  recommendations:
+    - "Use Playwright with stealth mode"
+    - "Rotate residential proxies"
+    - "Parse structured data from page source when possible"
+    - "Monitor for layout changes weekly"
+    - "Consider using AliExpress Affiliate API as alternative"
+
+# API Integration (Future)
+api:
+  affiliate_api:
+    name: "AliExpress Affiliate (Portals) API"
+    available: true
+    recommended: true
+    features:
+      - "Access to product data"
+      - "Real-time pricing"
+      - "Affiliate link generation"
+      - "Commission tracking"
+    commission_rate: "5-8%"  # Varies by category
+    approval_required: true
+    documentation: "https://portals.aliexpress.com"
+
+  notes: |
+    - API more reliable than scraping
+    - Requires affiliate program approval
+    - Better for production use
+    - Rate limits apply
+
+# Popular Product Categories
+popular_categories:
+  high_demand:
+    - "Phone accessories and gadgets"
+    - "Electronics and smart home"
+    - "Fashion and jewelry"
+    - "Home improvement tools"
+    - "Toys and hobbies"
+    - "Beauty and health"
+
+  best_value:
+    - "Phone cases and screen protectors"
+    - "LED lights and smart bulbs"
+    - "Watch bands and straps"
+    - "DIY craft supplies"
+    - "Small electronics and gadgets"
+
+# Seasonal Sales Events
+sales_events:
+  - name: "11.11 (Singles Day)"
+    date: "November 11"
+    notes: "Biggest sale of the year - massive discounts"
+
+  - name: "12.12"
+    date: "December 12"
+    notes: "Year-end sale event"
+
+  - name: "3.28 (Anniversary Sale)"
+    date: "March 28"
+    notes: "AliExpress anniversary sale"
+
+  - name: "Black Friday / Cyber Monday"
+    date: "November"
+    notes: "Western market focused sales"
+
+  - name: "Summer Sale"
+    date: "June-July"
+    notes: "Mid-year clearance"
+
+# Risk Factors & Considerations
+risks:
+  quality:
+    level: "variable"
+    notes: "Quality ranges from excellent to poor - check reviews and seller ratings"
+
+  delivery_time:
+    level: "high"
+    notes: "Very long delivery times compared to local/Amazon"
+
+  customs:
+    level: "medium"
+    notes: "Possible customs fees and delays"
+
+  returns:
+    level: "difficult"
+    notes: "Returning items to China is expensive and time-consuming"
+
+  scams:
+    level: "low-medium"
+    notes: "Buyer protection helps, but still possible with low-rated sellers"
+
+# Configuration metadata
+metadata:
+  version: "1.0.0"
+  last_updated: "2024-01-19"
+  status: "disabled_mvp"
+  phase: "phase_3"
+  priority: "medium"
+  implementation_notes: |
+    - Enable after Phase 1-2 completion
+    - Requires robust anti-detection system
+    - Very long delivery times - set user expectations
+    - Quality varies - implement good filtering
+    - Best for: bulk orders, non-urgent items, maximum savings
+    - Consider affiliate API over scraping for production

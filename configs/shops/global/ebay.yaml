@@ -1,0 +1,435 @@
+# eBay Global Marketplace Configuration
+# DISABLED FOR MVP - Enable in Phase 3
+# eBay is a global auction and shopping marketplace with international sellers
+
+shop:
+  id: ebay_com
+  name: "eBay"
+  url: "https://www.ebay.com"
+  country: usa
+  base_currency: USD
+  type: global
+  enabled: false  # Disabled for MVP - will enable in Phase 3
+  scraper_type: playwright  # JavaScript-heavy site
+  is_marketplace: true  # Individual and business sellers
+
+  # Rate limiting
+  rate_limit:
+    requests_per_minute: 10
+    delay_between_requests: 6  # seconds
+    use_proxy: true  # Recommended
+    respect_robots_txt: true
+
+  # Categories available
+  categories:
+    - electronics
+    - computers
+    - smartphones
+    - fashion
+    - collectibles
+    - home
+    - automotive
+    - sporting_goods
+    - toys
+    - jewelry
+    - books
+    - health_beauty
+    - general
+
+  # Platform characteristics
+  characteristics:
+    - "Auction and Buy It Now formats"
+    - "New and used items"
+    - "International seller network"
+    - "Buyer protection program"
+    - "Global Shipping Program"
+    - "Competitive pricing on many items"
+
+# International Shipping Configuration
+shipping:
+  # eBay has sellers worldwide shipping internationally
+  ships_to: worldwide
+  coverage: "190+ countries"
+
+  # eBay Global Shipping Program (GSP)
+  global_shipping_program:
+    name: "eBay Global Shipping Program"
+    description: |
+      Sellers ship to eBay's hub in their country, then eBay handles
+      international shipping and customs. Simplifies cross-border trade.
+
+    benefits:
+      - "Single shipping charge calculated upfront"
+      - "Import charges calculated at checkout"
+      - "Faster customs clearance"
+      - "eBay handles customs paperwork"
+      - "Tracking provided"
+      - "Buyer protection applies"
+
+    eligible_items: "Items marked with GSP logo"
+
+    process: |
+      1. Seller ships to eBay's domestic shipping center
+      2. eBay forwards to international buyer
+      3. All import fees collected at checkout
+      4. No surprise fees upon delivery
+
+  # Standard international shipping
+  standard_shipping:
+    description: "Seller ships directly to international buyer"
+
+    methods:
+      usps_priority:
+        name: "USPS Priority Mail International"
+        estimated_days: 6-10
+        tracking: true
+        typical_cost: "25-50 USD"
+        from: usa
+
+      usps_express:
+        name: "USPS Express Mail International"
+        estimated_days: 3-5
+        tracking: true
+        typical_cost: "40-80 USD"
+        from: usa
+
+      royal_mail:
+        name: "Royal Mail International"
+        estimated_days: 5-10
+        tracking: true
+        typical_cost: "15-35 GBP"
+        from: uk
+
+      dhl_express:
+        name: "DHL Express"
+        estimated_days: 2-5
+        tracking: true
+        typical_cost: "40-100 USD"
+        from: various
+
+  # Israel-specific shipping
+  israel_specific:
+    global_shipping_program: true
+    direct_shipping_available: true
+
+    typical_delivery_days:
+      gsp: 10-21
+      standard: 10-30
+      express: 5-12
+
+    shipping_cost_range:
+      low: 10  # USD
+      typical: 25
+      high: 60
+
+    notes: |
+      - Many sellers ship to Israel
+      - GSP simplifies customs process
+      - Some sellers exclude Israel (check item details)
+      - Delivery times vary by seller location
+      - Track packages through eBay system
+
+# Import Rules and Customs
+import_rules:
+  global_shipping_program:
+    import_fees_at_checkout: true
+    description: |
+      With GSP, all import charges (duties, taxes, fees) are calculated
+      and collected at checkout. No surprise fees upon delivery.
+
+    includes:
+      - "Import duties"
+      - "VAT/GST"
+      - "Customs clearance fees"
+
+    benefits:
+      - "Price transparency"
+      - "Faster customs processing"
+      - "No cash on delivery fees"
+
+  standard_shipping:
+    buyer_responsibility: true
+    description: |
+      Without GSP, buyer may need to pay import fees upon delivery
+      or through postal service before receiving item.
+
+  israel:
+    duty_free_threshold: 75  # USD
+    vat_rate: 0.17  # 17%
+
+    with_gsp:
+      import_fees_at_checkout: true
+      handling_included: true
+      typical_total_fee: "17-30% of item value"
+
+    without_gsp:
+      customs_clearance_fee: 30  # ILS
+      vat_on: "item_value + shipping + duty"
+      delivery_fee_possible: true
+
+    category_duties:
+      electronics: 0.12
+      smartphones: 0.12
+      computers: 0.05
+      clothing: 0.12
+      shoes: 0.12
+      collectibles: 0.12
+      jewelry: 0.12
+      books: 0.00
+
+# Listing Types
+listing_types:
+  auction:
+    name: "Auction"
+    description: "Bidding-based, ends at specific time"
+    min_price: "Starting bid"
+    final_price: "Highest bid at auction end"
+    notes: "Can get deals but requires timing and monitoring"
+
+  buy_it_now:
+    name: "Buy It Now"
+    description: "Fixed price, instant purchase"
+    price_type: "fixed"
+    notes: "Most common for price comparison purposes"
+
+  best_offer:
+    name: "Best Offer"
+    description: "Buyer can make offers below asking price"
+    negotiable: true
+    notes: "Potential for better deals through negotiation"
+
+# Buyer Protection
+buyer_protection:
+  name: "eBay Money Back Guarantee"
+  coverage: |
+    - Item not received
+    - Item not as described
+    - Damaged in shipping (if GSP)
+
+  coverage_period: "30 days after delivery"
+
+  process:
+    - "Contact seller first"
+    - "Open return request if unresolved"
+    - "eBay steps in if needed"
+    - "Full refund if covered issue"
+
+  notes: |
+    - Strong buyer protection
+    - Document issues with photos
+    - Communicate through eBay messaging
+    - Act within timeframes
+
+# Pricing Characteristics
+pricing:
+  variability: "high"
+  factors:
+    - "Seller location affects shipping cost"
+    - "Condition (new/used/refurbished)"
+    - "Auction vs Buy It Now"
+    - "Seller's pricing strategy"
+    - "Item rarity/demand"
+
+  deals_potential: "high"
+  notes: |
+    - Prices vary significantly between sellers
+    - Used/refurbished often great value
+    - Auctions can result in great deals (or overpaying)
+    - Watch for high shipping costs offsetting low prices
+    - Compare total cost (item + shipping + fees)
+
+# Seller Quality Indicators
+seller_metrics:
+  feedback_score:
+    description: "Number in parentheses (e.g., (1234))"
+    interpretation: "Higher = more transactions"
+
+  feedback_percentage:
+    description: "Positive feedback %"
+    target: "98%+"
+    yellow_flag: "95-98%"
+    red_flag: "<95%"
+
+  top_rated_seller:
+    badge: "Top Rated"
+    requirements:
+      - "98%+ positive feedback"
+      - "100+ transactions"
+      - "Fast shipping"
+      - "Excellent customer service"
+    benefits: "Most reliable sellers"
+
+  detailed_ratings:
+    - "Item as described"
+    - "Communication"
+    - "Shipping time"
+    - "Shipping cost"
+
+# Anti-Detection & Scraping Strategy
+scraping:
+  complexity: "medium-high"
+
+  challenges:
+    - "Heavy JavaScript (React-based)"
+    - "Rate limiting"
+    - "Dynamic content loading"
+    - "Session management"
+    - "Regional variations"
+
+  anti_detection:
+    rotate_user_agents: true
+    use_proxies: true
+    randomize_delays: true
+    session_cookies: true
+    browser_fingerprinting: true
+
+  selectors:
+    # Note: eBay frequently updates class names
+    product_title: "h1.x-item-title__mainTitle"
+    price: "div.x-price-primary"
+    shipping: "span.ux-shipping-cost"
+    condition: "div.x-item-condition"
+    seller_info: "div.x-sellercard-atf"
+    item_number: "div.ux-labels-values__values-content"
+
+  pagination:
+    type: "numbered"
+    results_per_page: 50  # Can be adjusted (25/50/100/200)
+    max_pages: 200  # eBay limit
+
+  notes: |
+    - Respect rate limits to avoid IP bans
+    - Consider eBay Browse API for production
+    - Monitor for layout changes
+    - Some data available in structured format
+
+# API Integration (Production Recommended)
+api:
+  browse_api:
+    name: "eBay Browse API"
+    available: true
+    recommended: true
+    features:
+      - "Search items"
+      - "Get item details"
+      - "Real-time pricing"
+      - "Shipping calculator"
+      - "Categories and filters"
+
+    benefits:
+      - "More reliable than scraping"
+      - "Official supported method"
+      - "Structured data"
+      - "Less likely to break"
+
+    requirements:
+      - "eBay developer account"
+      - "Application registration"
+      - "OAuth authentication"
+
+    rate_limits:
+      - "5,000 calls/day (sandbox)"
+      - "Higher limits available"
+
+    documentation: "https://developer.ebay.com/api-docs/buy/browse/overview.html"
+
+  affiliate_program:
+    name: "eBay Partner Network"
+    commission_rate: "1-4%"  # Varies by category
+    available: true
+    notes: "Can be combined with Browse API"
+
+# Regional Sites
+regional_sites:
+  - id: ebay_uk
+    url: "https://www.ebay.co.uk"
+    country: united_kingdom
+    currency: GBP
+    enabled: false
+
+  - id: ebay_de
+    url: "https://www.ebay.de"
+    country: germany
+    currency: EUR
+    enabled: false
+
+  - id: ebay_au
+    url: "https://www.ebay.com.au"
+    country: australia
+    currency: AUD
+    enabled: false
+
+  - id: ebay_ca
+    url: "https://www.ebay.ca"
+    country: canada
+    currency: CAD
+    enabled: false
+
+  - id: ebay_fr
+    url: "https://www.ebay.fr"
+    country: france
+    currency: EUR
+    enabled: false
+
+# Best Practices for Price Comparison
+comparison_tips:
+  filters_to_apply:
+    - "Buy It Now only (exclude auctions)"
+    - "New condition (or specify used)"
+    - "Ships to: Israel"
+    - "Sort by: Price + Shipping (lowest first)"
+
+  data_to_capture:
+    - "Item price"
+    - "Shipping cost"
+    - "Estimated import charges (if shown)"
+    - "Total cost"
+    - "Seller location"
+    - "Estimated delivery time"
+    - "Seller rating"
+    - "Condition"
+
+  caveats:
+    - "Auction prices change - use BIN for comparison"
+    - "Shipping costs vary by seller"
+    - "Used items not directly comparable to new"
+    - "Check seller location (domestic vs international)"
+    - "Factor in return difficulty for international"
+
+# Risk Factors
+risks:
+  condition_variability:
+    level: "medium"
+    notes: "Used/refurbished quality varies - read descriptions carefully"
+
+  shipping_time:
+    level: "medium"
+    notes: "International shipping can be slow (10-30 days)"
+
+  customs:
+    level: "low-medium"
+    notes: "GSP handles most issues, but standard shipping has risks"
+
+  returns:
+    level: "medium"
+    notes: "International returns expensive - check seller return policy"
+
+  scams:
+    level: "low"
+    notes: "eBay protection is strong, but still verify seller ratings"
+
+# Configuration metadata
+metadata:
+  version: "1.0.0"
+  last_updated: "2024-01-19"
+  status: "disabled_mvp"
+  phase: "phase_3"
+  priority: "medium"
+  implementation_notes: |
+    - Enable after Phase 1-2 completion
+    - Strongly recommend using eBay Browse API over scraping
+    - Focus on Buy It Now items for price comparison
+    - Implement seller quality filtering
+    - Account for shipping costs in price comparison
+    - GSP items provide better user experience (transparent fees)
+    - Great for: deals, used items, hard-to-find products

@@ -1,0 +1,408 @@
+# Israel Regional Configuration
+# Settings specific to Israel for customs, taxes, and shipping
+
+region:
+  id: israel
+  name: "Israel"
+  code: IL
+  continent: asia  # Middle East
+  timezone: "Asia/Jerusalem"
+  languages:
+    primary: "he"  # Hebrew
+    secondary: "en"  # English
+    supported: ["he", "en", "ar", "ru"]
+
+# Currency Configuration
+currency:
+  code: ILS
+  symbol: "₪"
+  name: "Israeli New Shekel"
+  subunit: "Agora"
+  subunit_ratio: 100  # 100 agorot = 1 shekel
+
+  # Exchange rate handling
+  exchange_rate:
+    source: "exchangerate-api.com"  # Or Bank of Israel
+    update_frequency: "hourly"
+    cache_duration: 3600  # seconds
+    fallback_sources:
+      - "openexchangerates.org"
+      - "fixer.io"
+
+  # Formatting
+  formatting:
+    decimal_separator: "."
+    thousands_separator: ","
+    position: "before"  # ₪5,499.99
+    example: "₪5,499.99"
+
+# Tax Configuration
+taxation:
+  vat:
+    name: "VAT (Value Added Tax)"
+    hebrew_name: "מע״ם (מס ערך מוסף)"
+    rate: 0.17  # 17%
+    applies_to:
+      - "All goods and services"
+      - "Imported products"
+      - "Digital services"
+
+    calculation:
+      method: "additive"  # Added on top of price
+      formula: "price * (1 + vat_rate)"
+      example: "₪1,000 + 17% = ₪1,170"
+
+    # Some items may have reduced/zero VAT
+    reduced_rate_items:
+      - "Fresh fruits and vegetables"
+      - "Basic food items"
+      - "Books and newspapers"
+    reduced_rate: 0.00  # 0% for specific items
+
+  income_tax_note: "Not applicable for price comparison app"
+
+# Import/Customs Configuration
+customs:
+  authority: "Israel Tax Authority"
+  hebrew_name: "רשות המיסים בישראל"
+  clearance_location: "Ben Gurion Airport / Ashdod Port"
+
+  # Duty-free threshold
+  duty_free_threshold:
+    amount: 75
+    currency: USD
+    notes: |
+      - Orders under $75 USD are exempt from import duty
+      - VAT still applies to all imports
+      - Threshold applies per package, not per order
+      - Personal use only (not commercial)
+
+  # Import fees structure
+  import_fees:
+    vat:
+      rate: 0.17
+      applies_to: "item_price + shipping + import_duty"
+      mandatory: true
+
+    import_duty:
+      varies_by_category: true
+      calculation_base: "CIF (Cost, Insurance, Freight)"
+
+    handling_fee:
+      amount: 30
+      currency: ILS
+      charged_by: "Israel Post / courier"
+      applies_when: "customs processing required"
+      notes: "Charged even if no duty owed"
+
+  # Category-specific import duties
+  category_duties:
+    electronics:
+      rate: 0.12  # 12%
+      items:
+        - "Televisions"
+        - "Cameras"
+        - "Audio equipment"
+        - "General electronics"
+
+    computers:
+      rate: 0.05  # 5%
+      items:
+        - "Desktop computers"
+        - "Laptops"
+        - "Tablets"
+        - "Computer components"
+
+    smartphones:
+      rate: 0.12  # 12%
+      items:
+        - "Mobile phones"
+        - "Smartphones"
+        - "Cell phone accessories"
+
+    clothing:
+      rate: 0.12  # 12%
+      items:
+        - "Shirts, pants, dresses"
+        - "Jackets, coats"
+        - "Sportswear"
+
+    shoes:
+      rate: 0.12  # 12%
+      items:
+        - "All footwear"
+        - "Sneakers, boots, sandals"
+
+    jewelry:
+      rate: 0.12  # 12%
+      items:
+        - "Watches"
+        - "Rings, necklaces"
+        - "Fashion jewelry"
+
+    toys:
+      rate: 0.12  # 12%
+      items:
+        - "Children's toys"
+        - "Board games"
+        - "Action figures"
+
+    cosmetics:
+      rate: 0.12  # 12%
+      items:
+        - "Makeup"
+        - "Skincare products"
+        - "Perfumes"
+
+    books:
+      rate: 0.00  # 0% - duty free
+      items:
+        - "Printed books"
+        - "Educational materials"
+
+    sports_equipment:
+      rate: 0.12  # 12%
+      items:
+        - "Fitness equipment"
+        - "Sports gear"
+        - "Outdoor equipment"
+
+  # Import calculation example
+  calculation_example:
+    scenario: "iPhone 15 Pro from USA"
+    item_price: 1199  # USD
+    shipping: 25
+
+    steps:
+      1:
+        description: "Calculate CIF value"
+        formula: "item_price + shipping"
+        result: 1224  # USD
+
+      2:
+        description: "Apply import duty (smartphones: 12%)"
+        formula: "CIF * 0.12"
+        result: 146.88  # USD
+
+      3:
+        description: "Calculate VAT base (CIF + duty)"
+        formula: "1224 + 146.88"
+        result: 1370.88  # USD
+
+      4:
+        description: "Apply VAT (17%)"
+        formula: "VAT_base * 0.17"
+        result: 233.05  # USD
+
+      5:
+        description: "Total in USD"
+        formula: "item + shipping + duty + VAT"
+        result: 1603.93  # USD
+
+      6:
+        description: "Convert to ILS (rate: 3.73)"
+        formula: "total_USD * exchange_rate"
+        result: 5982.66  # ILS
+
+      7:
+        description: "Add handling fee"
+        formula: "total_ILS + 30"
+        result: 6012.66  # ILS
+
+    total_cost: 6012.66  # ILS
+    original_price: 4472.27  # ILS (1199 * 3.73)
+    additional_fees: 1540.39  # ILS (34.4% of item price)
+
+  # Prohibited items
+  prohibited_items:
+    - "Weapons and ammunition"
+    - "Illegal drugs and narcotics"
+    - "Counterfeit goods"
+    - "Certain food items"
+    - "Live animals (without permit)"
+    - "Obscene materials"
+
+  # Restricted items (require permits)
+  restricted_items:
+    - "Prescription medications (max 3-month supply)"
+    - "Large quantities of alcohol/tobacco"
+    - "Certain electronics (radio transmitters)"
+    - "Plants and seeds"
+
+# Shipping Zones
+shipping_zones:
+  domestic:
+    name: "Israel Domestic"
+    coverage:
+      - "All of Israel"
+      - "West Bank settlements"
+      - "Golan Heights"
+    typical_delivery:
+      standard: "1-3 business days"
+      express: "1 business day"
+
+  international:
+    zones:
+      zone_1:
+        name: "Europe"
+        typical_delivery: "5-10 business days"
+        countries: ["UK", "Germany", "France", "Italy", "Spain"]
+
+      zone_2:
+        name: "North America"
+        typical_delivery: "7-14 business days"
+        countries: ["USA", "Canada"]
+
+      zone_3:
+        name: "Asia"
+        typical_delivery: "10-21 business days"
+        countries: ["China", "Japan", "South Korea", "Thailand"]
+
+      zone_4:
+        name: "Rest of World"
+        typical_delivery: "14-30 business days"
+        countries: ["Australia", "South America", "Africa"]
+
+# Delivery Services
+delivery_services:
+  local:
+    israel_post:
+      name: "Israel Post (דואר ישראל)"
+      website: "https://www.israelpost.co.il"
+      services:
+        - "Regular mail"
+        - "Registered mail"
+        - "Express delivery"
+      tracking: true
+      handles_customs: true
+
+  international_couriers:
+    dhl:
+      name: "DHL Express"
+      active: true
+      typical_delivery: "3-7 days"
+      customs_clearance: "handled by DHL"
+
+    fedex:
+      name: "FedEx"
+      active: true
+      typical_delivery: "3-7 days"
+      customs_clearance: "handled by FedEx"
+
+    ups:
+      name: "UPS"
+      active: true
+      typical_delivery: "5-10 days"
+      customs_clearance: "handled by UPS"
+
+# Popular Local Retailers
+local_retailers:
+  electronics:
+    - "KSP"
+    - "Ivory"
+    - "Bug"
+    - "iDigital"
+    - "Zap"
+
+  fashion:
+    - "Terminal X"
+    - "Castro"
+    - "Golf"
+    - "Mashbir"
+    - "Azrieli"
+
+  supermarkets:
+    - "Shufersal"
+    - "Rami Levy"
+    - "Yochananof"
+    - "Mega"
+    - "AM:PM"
+
+  home:
+    - "IKEA Israel"
+    - "Home Center"
+    - "Fox Home"
+    - "Ace Hardware"
+
+# Market Characteristics
+market:
+  size: "9.3 million people"
+  internet_penetration: "90%+"
+  e_commerce_adoption: "high"
+  preferred_payment_methods:
+    - "Credit cards (Visa, Mastercard, Isracard)"
+    - "Bit (Israeli payment app)"
+    - "PayPal"
+    - "Apple Pay / Google Pay"
+
+  shopping_behavior:
+    - "Price-conscious consumers"
+    - "High comparison shopping rate"
+    - "Strong preference for local retailers (fast delivery)"
+    - "Growing international shopping for better prices"
+    - "Mobile shopping increasing"
+
+  price_sensitivity: "high"
+  average_savings_threshold: "15%"  # Min savings to consider international
+
+# Regulatory Notes
+regulations:
+  consumer_protection:
+    authority: "Consumer Protection and Fair Trade Authority"
+    return_period: "14 days for online purchases"
+    warranty: "Manufacturer warranty may vary for imports"
+
+  data_protection:
+    law: "Privacy Protection Law 5741-1981"
+    notes: "Similar to GDPR in some aspects"
+
+  e_commerce:
+    requirements:
+      - "Display prices including VAT"
+      - "Clear shipping costs"
+      - "Return policy disclosure"
+      - "Business registration number"
+
+# Holidays & Peak Seasons
+holidays:
+  major_shopping_events:
+    - name: "Black Friday"
+      month: "November"
+      type: "imported tradition"
+
+    - name: "Singles Day (11.11)"
+      month: "November"
+      type: "online shopping day"
+
+    - name: "Before Rosh Hashanah"
+      month: "September"
+      type: "traditional shopping season"
+
+    - name: "Before Passover"
+      month: "March/April"
+      type: "traditional shopping season"
+
+  non_business_days:
+    - "Shabbat (Friday evening - Saturday evening)"
+    - "Jewish holidays (Rosh Hashanah, Yom Kippur, Passover, etc.)"
+    - "Independence Day"
+
+# Configuration Metadata
+metadata:
+  version: "1.0.0"
+  last_updated: "2024-01-19"
+  sources:
+    - "Israel Tax Authority"
+    - "Israel Customs"
+    - "Bank of Israel"
+  accuracy: "Rates and thresholds subject to change - verify with authorities"
+
+  notes: |
+    - Import duty rates are approximate and may vary
+    - Always check Israel Tax Authority for latest rates
+    - Exchange rates fluctuate - use real-time data
+    - Customs may inspect packages and apply discretion
+    - Consider total landed cost when comparing international prices
+
+  update_frequency: "quarterly"
+  next_review: "2024-04-19"

@@ -1,0 +1,176 @@
+version: '3.8'
+
+# ═══════════════════════════════════════════════════════════════
+# DEVELOPMENT OVERRIDES FOR DOCKER COMPOSE
+# ═══════════════════════════════════════════════════════════════
+#
+# This file extends docker-compose.yml with development-specific
+# configurations. Use it with:
+#   docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+#
+# Or use the npm script:
+#   npm run docker:up
+#
+# Changes from production:
+# - More verbose logging
+# - Exposed debug ports
+# - Volume mounts for hot-reload (when services are built)
+# - Relaxed security settings
+# - Development environment variables
+#
+# ═══════════════════════════════════════════════════════════════
+
+services:
+  # ═══════════════════════════════════════════════════════════════
+  # MONGODB - DEVELOPMENT SETTINGS
+  # ═══════════════════════════════════════════════════════════════
+  mongodb:
+    environment:
+      # Enable more verbose logging in development
+      MONGO_LOG_LEVEL: debug
+    # Expose additional port for MongoDB Compass or Studio 3T
+    ports:
+      - "${MONGODB_PORT:-27017}:27017"
+
+  # ═══════════════════════════════════════════════════════════════
+  # REDIS - DEVELOPMENT SETTINGS
+  # ═══════════════════════════════════════════════════════════════
+  redis:
+    # Enable verbose logging
+    command: >
+      redis-server
+      --requirepass ${REDIS_PASSWORD:-changeme}
+      --appendonly yes
+      --loglevel debug
+
+  # ═══════════════════════════════════════════════════════════════
+  # MEILISEARCH - DEVELOPMENT SETTINGS
+  # ═══════════════════════════════════════════════════════════════
+  meilisearch:
+    environment:
+      MEILI_MASTER_KEY: ${MEILISEARCH_MASTER_KEY:-changeme_master_key_min_16_chars}
+      MEILI_ENV: development
+      MEILI_HTTP_ADDR: 0.0.0.0:7700
+      MEILI_DB_PATH: /meili_data
+      # Development-specific settings
+      MEILI_LOG_LEVEL: DEBUG
+      MEILI_MAX_INDEXING_MEMORY: 512MB
+      MEILI_MAX_INDEXING_THREADS: 2
+    # In development, you might want to access the web interface
+    ports:
+      - "${MEILISEARCH_PORT:-7700}:7700"
+
+  # ═══════════════════════════════════════════════════════════════
+  # QDRANT - DEVELOPMENT SETTINGS
+  # ═══════════════════════════════════════════════════════════════
+  qdrant:
+    environment:
+      QDRANT__SERVICE__HTTP_PORT: 6333
+      QDRANT__SERVICE__GRPC_PORT: 6334
+      # Development logging
+      QDRANT__LOG_LEVEL: DEBUG
+    # Expose web UI (if available in this version)
+    ports:
+      - "${QDRANT_HTTP_PORT:-6333}:6333"
+      - "${QDRANT_GRPC_PORT:-6334}:6334"
+
+  # ═══════════════════════════════════════════════════════════════
+  # RABBITMQ - DEVELOPMENT SETTINGS
+  # ═══════════════════════════════════════════════════════════════
+  rabbitmq:
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-admin}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-changeme}
+      RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_VHOST:-price_comparison}
+      # Enable more plugins for development
+      RABBITMQ_PLUGINS: rabbitmq_management,rabbitmq_prometheus
+    # Make management UI easily accessible
+    ports:
+      - "${RABBITMQ_PORT:-5672}:5672"
+      - "${RABBITMQ_MGMT_PORT:-15672}:15672"
+
+  # ═══════════════════════════════════════════════════════════════
+  # FUTURE APPLICATION SERVICES
+  # ═══════════════════════════════════════════════════════════════
+  # Uncomment and configure when services are implemented
+
+  # API Gateway (Node.js + Fastify)
+  # api:
+  #   build:
+  #     context: ./apps/api
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./apps/api/src:/app/src:ro
+  #     - /app/node_modules
+  #   environment:
+  #     NODE_ENV: development
+  #     DEBUG: '*'
+  #   ports:
+  #     - "${API_PORT:-4000}:4000"
+  #     - "9229:9229"  # Node.js debug port
+
+  # Web Frontend (React + Vite)
+  # web:
+  #   build:
+  #     context: ./apps/web
+  #     dockerfile: Dockerfile.dev
+  #   volumes:
+  #     - ./apps/web/src:/app/src:ro
+  #     - /app/node_modules
+  #   environment:
+  #     NODE_ENV: development
+  #   ports:
+  #     - "${WEB_PORT:-3000}:3000"
+
+  # Scraper Service (Python + FastAPI)
+  # scraper:
+  #   build:
+  #     context: ./services/scraper
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./services/scraper/src:/app/src:ro
+  #   environment:
+  #     PYTHON_ENV: development
+  #     LOG_LEVEL: DEBUG
+  #   ports:
+  #     - "${SCRAPER_PORT:-5000}:5000"
+  #     - "5678:5678"  # Python debugpy port
+
+  # Normalizer Service (Python)
+  # normalizer:
+  #   build:
+  #     context: ./services/normalizer
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./services/normalizer/src:/app/src:ro
+  #   environment:
+  #     PYTHON_ENV: development
+  #     LOG_LEVEL: DEBUG
+  #   ports:
+  #     - "${NORMALIZER_PORT:-5001}:5001"
+
+  # Search Service (Python + FastAPI)
+  # search:
+  #   build:
+  #     context: ./services/search
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./services/search/src:/app/src:ro
+  #   environment:
+  #     PYTHON_ENV: development
+  #     LOG_LEVEL: DEBUG
+  #   ports:
+  #     - "${SEARCH_PORT:-5002}:5002"
+
+  # Recommendation Engine (Python)
+  # recommendation-engine:
+  #   build:
+  #     context: ./services/recommendation-engine
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./services/recommendation-engine/src:/app/src:ro
+  #   environment:
+  #     PYTHON_ENV: development
+  #     LOG_LEVEL: DEBUG
+  #   ports:
+  #     - "${RECOMMENDATION_PORT:-5003}:5003"

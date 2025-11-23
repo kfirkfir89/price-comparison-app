@@ -1,0 +1,212 @@
+/home/kfir/projects/price-comparison-app
+├── .claude
+│   ├── agents
+│   │   ├── auth-route-debugger.md
+│   │   ├── auth-route-tester.md
+│   │   ├── auto-error-resolver.md
+│   │   ├── code-architecture-reviewer.md
+│   │   ├── code-refactor-master.md
+│   │   ├── documentation-architect.md
+│   │   ├── frontend-error-fixer.md
+│   │   ├── plan-reviewer.md
+│   │   ├── README.md
+│   │   ├── refactor-planner.md
+│   │   └── web-research-specialist.md
+│   ├── commands
+│   │   ├── dev-docs-update.md
+│   │   ├── dev-docs.md
+│   │   └── route-research-for-testing.md
+│   ├── hooks
+│   │   ├── CONFIG.md
+│   │   ├── error-handling-reminder.sh
+│   │   ├── error-handling-reminder.ts
+│   │   ├── package-lock.json
+│   │   ├── package.json
+│   │   ├── post-tool-use-tracker.sh
+│   │   ├── README.md
+│   │   ├── skill-activation-prompt.sh
+│   │   ├── skill-activation-prompt.ts
+│   │   ├── stop-build-check-enhanced.sh
+│   │   ├── trigger-build-resolver.sh
+│   │   ├── tsc-check.sh
+│   │   └── tsconfig.json
+│   ├── skills
+│   │   ├── backend-dev-guidelines
+│   │   │   ├── resources
+│   │   │   │   ├── architecture-overview.md
+│   │   │   │   ├── async-and-errors.md
+│   │   │   │   ├── complete-examples.md
+│   │   │   │   ├── configuration.md
+│   │   │   │   ├── database-patterns.md
+│   │   │   │   ├── middleware-guide.md
+│   │   │   │   ├── routing-and-controllers.md
+│   │   │   │   ├── sentry-and-monitoring.md
+│   │   │   │   ├── services-and-repositories.md
+│   │   │   │   ├── testing-guide.md
+│   │   │   │   └── validation-patterns.md
+│   │   │   └── SKILL.md
+│   │   ├── error-tracking
+│   │   │   └── SKILL.md
+│   │   ├── frontend-dev-guidelines
+│   │   │   ├── resources
+│   │   │   │   ├── common-patterns.md
+│   │   │   │   ├── complete-examples.md
+│   │   │   │   ├── component-patterns.md
+│   │   │   │   ├── data-fetching.md
+│   │   │   │   ├── file-organization.md
+│   │   │   │   ├── loading-and-error-states.md
+│   │   │   │   ├── performance.md
+│   │   │   │   ├── routing-guide.md
+│   │   │   │   ├── styling-guide.md
+│   │   │   │   └── typescript-standards.md
+│   │   │   └── SKILL.md
+│   │   ├── route-tester
+│   │   │   └── SKILL.md
+│   │   ├── skill-developer
+│   │   │   ├── ADVANCED.md
+│   │   │   ├── HOOK_MECHANISMS.md
+│   │   │   ├── PATTERNS_LIBRARY.md
+│   │   │   ├── SKILL.md
+│   │   │   ├── SKILL_RULES_REFERENCE.md
+│   │   │   ├── TRIGGER_TYPES.md
+│   │   │   └── TROUBLESHOOTING.md
+│   │   ├── README.md
+│   │   └── skill-rules.json
+│   ├── settings.json
+│   └── settings.local.json
+├── apps
+│   ├── api
+│   └── web
+│       ├── dist
+│       │   ├── assets
+│       │   │   ├── index-BeKxpIKi.css
+│       │   │   ├── index-IsInWe3_.js
+│       │   │   └── react-CHdo91hT.svg
+│       │   ├── index.html
+│       │   └── vite.svg
+│       ├── public
+│       │   └── vite.svg
+│       ├── src
+│       │   ├── api
+│       │   ├── assets
+│       │   │   └── react.svg
+│       │   ├── components
+│       │   │   ├── ui
+│       │   │   │   ├── badge.tsx
+│       │   │   │   ├── button.tsx
+│       │   │   │   ├── card.tsx
+│       │   │   │   ├── dropdown-menu.tsx
+│       │   │   │   ├── input.tsx
+│       │   │   │   ├── separator.tsx
+│       │   │   │   └── table.tsx
+│       │   │   └── test.jsx
+│       │   ├── features
+│       │   ├── hooks
+│       │   ├── lib
+│       │   │   └── utils.ts
+│       │   ├── pages
+│       │   ├── store
+│       │   ├── utils
+│       │   ├── App.css
+│       │   ├── App.tsx
+│       │   ├── index.css
+│       │   └── main.tsx
+│       ├── .gitignore
+│       ├── components.json
+│       ├── eslint.config.js
+│       ├── index.html
+│       ├── package-lock.json
+│       ├── package.json
+│       ├── postcss.config.mjs
+│       ├── prettier.config.js
+│       ├── README.md
+│       ├── tailwind.config.js
+│       ├── tsconfig.app.json
+│       ├── tsconfig.json
+│       ├── tsconfig.node.json
+│       └── vite.config.ts
+├── configs
+│   ├── regions
+│   └── shops
+│       ├── global
+│       │   ├── aliexpress.yaml
+│       │   ├── amazon.yaml
+│       │   └── ebay.yaml
+│       └── local
+│           └── israel.yaml
+├── dev
+│   └── README.md
+├── docs
+├── infrastructure
+│   └── docker
+├── packages
+│   ├── config
+│   │   ├── dist
+│   │   │   ├── index.d.mts
+│   │   │   ├── index.d.ts
+│   │   │   ├── index.js
+│   │   │   └── index.mjs
+│   │   ├── src
+│   │   │   ├── database.ts
+│   │   │   ├── environment.ts
+│   │   │   ├── features.ts
+│   │   │   ├── index.ts
+│   │   │   ├── services.ts
+│   │   │   └── shops.ts
+│   │   ├── package.json
+│   │   └── tsconfig.json
+│   ├── types
+│   │   ├── dist
+│   │   │   ├── index.d.mts
+│   │   │   ├── index.d.ts
+│   │   │   ├── index.js
+│   │   │   └── index.mjs
+│   │   ├── src
+│   │   │   ├── api.ts
+│   │   │   ├── enums.ts
+│   │   │   ├── index.ts
+│   │   │   ├── product.ts
+│   │   │   ├── search.ts
+│   │   │   ├── shop.ts
+│   │   │   └── user.ts
+│   │   ├── package.json
+│   │   └── tsconfig.json
+│   └── utils
+│       ├── dist
+│       │   ├── index.d.mts
+│       │   ├── index.d.ts
+│       │   ├── index.js
+│       │   └── index.mjs
+│       ├── src
+│       │   ├── calculations.ts
+│       │   ├── currency.ts
+│       │   ├── date.ts
+│       │   ├── index.ts
+│       │   ├── price.ts
+│       │   ├── string.ts
+│       │   └── validation.ts
+│       ├── package.json
+│       └── tsconfig.json
+├── services
+│   ├── normalizer
+│   ├── recommendation-engine
+│   ├── scraper
+│   └── search
+├── .dockerignore
+├── .env.example
+├── .gitignore
+├── .mcp.json
+├── 1.md
+├── 2.md
+├── CLAUDE_INTEGRATION_GUIDE.md
+├── docker-compose.dev.yml
+├── docker-compose.yml
+├── front-plan.md
+├── package-lock.json
+├── package.json
+├── plan-instructions.md
+├── plan.md
+├── pnpm-lock.yaml
+├── pnpm-workspace.yaml
+├── project-folder-structure.txt
+└── README.md
