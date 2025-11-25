@@ -2,26 +2,26 @@
  * Currency utilities and helpers
  */
 
-import { Currency } from '@price-comparison/types';
+import { Currency } from "@price-comparison/types";
 
 /**
  * Currency symbols map
  */
 export const CURRENCY_SYMBOLS: Record<Currency, string> = {
-  [Currency.ILS]: '₪',
-  [Currency.USD]: '$',
-  [Currency.EUR]: '€',
-  [Currency.GBP]: '£',
+  [Currency.ILS]: "₪",
+  [Currency.USD]: "$",
+  [Currency.EUR]: "€",
+  [Currency.GBP]: "£",
 };
 
 /**
  * Currency names map
  */
 export const CURRENCY_NAMES: Record<Currency, string> = {
-  [Currency.ILS]: 'Israeli Shekel',
-  [Currency.USD]: 'US Dollar',
-  [Currency.EUR]: 'Euro',
-  [Currency.GBP]: 'British Pound',
+  [Currency.ILS]: "Israeli Shekel",
+  [Currency.USD]: "US Dollar",
+  [Currency.EUR]: "Euro",
+  [Currency.GBP]: "British Pound",
 };
 
 /**
@@ -59,7 +59,7 @@ export const EXCHANGE_RATES: Record<Currency, number> = {
 export function convertCurrency(
   amount: number,
   fromCurrency: Currency,
-  toCurrency: Currency
+  toCurrency: Currency,
 ): number {
   if (fromCurrency === toCurrency) {
     return amount;
@@ -77,7 +77,10 @@ export function convertCurrency(
 /**
  * Get exchange rate between two currencies
  */
-export function getExchangeRate(fromCurrency: Currency, toCurrency: Currency): number {
+export function getExchangeRate(
+  fromCurrency: Currency,
+  toCurrency: Currency,
+): number {
   if (fromCurrency === toCurrency) {
     return 1;
   }
@@ -88,9 +91,12 @@ export function getExchangeRate(fromCurrency: Currency, toCurrency: Currency): n
 /**
  * Format currency amount with symbol
  */
-export function formatCurrencyAmount(amount: number, currency: Currency): string {
+export function formatCurrencyAmount(
+  amount: number,
+  currency: Currency,
+): string {
   const symbol = getCurrencySymbol(currency);
-  const formattedAmount = amount.toLocaleString('en-US', {
+  const formattedAmount = amount.toLocaleString("en-US", {
     minimumFractionDigits: 0,
     maximumFractionDigits: 2,
   });
@@ -106,7 +112,7 @@ export function formatCurrencyAmount(amount: number, currency: Currency): string
  */
 export function parseCurrencyString(currencyString: string): number {
   // Remove all non-numeric characters except decimal point and minus
-  const cleanedString = currencyString.replace(/[^0-9.-]/g, '');
+  const cleanedString = currencyString.replace(/[^0-9.-]/g, "");
   return parseFloat(cleanedString) || 0;
 }
 

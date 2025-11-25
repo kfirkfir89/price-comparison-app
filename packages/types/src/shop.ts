@@ -2,7 +2,7 @@
  * Shop and shop configuration type definitions
  */
 
-import { Currency, Country, ShopType, ScraperType } from './enums';
+import { Currency, Country, ShopType, ScraperType } from "./enums";
 
 /**
  * Shop configuration from YAML files

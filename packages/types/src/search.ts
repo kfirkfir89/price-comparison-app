@@ -2,8 +2,14 @@
  * Search request and response type definitions
  */
 
-import { Currency, Country, ShoppingMode, SortBy, AvailabilityStatus } from './enums';
-import { Product, ProductGroup } from './product';
+import {
+  Currency,
+  Country,
+  ShoppingMode,
+  SortBy,
+  AvailabilityStatus,
+} from "./enums";
+import { Product, ProductGroup } from "./product";
 
 /**
  * Search filters
@@ -203,7 +209,7 @@ export interface SearchSuggestion {
   /** Suggestion text */
   text: string;
   /** Suggestion type */
-  type: 'product' | 'category' | 'brand' | 'shop';
+  type: "product" | "category" | "brand" | "shop";
   /** Number of results for this suggestion */
   count?: number;
   /** Highlighted text (with query match) */

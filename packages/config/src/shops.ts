@@ -3,12 +3,12 @@
  * Loads and validates shop configurations from YAML files
  */
 
-import fs from 'fs';
-import path from 'path';
-import yaml from 'js-yaml';
-import { z } from 'zod';
-import { ShopConfig } from '@price-comparison/types';
-import { getEnvironment } from './environment';
+import fs from "fs";
+import path from "path";
+import yaml from "js-yaml";
+import { z } from "zod";
+import { ShopConfig } from "@price-comparison/types";
+import { getEnvironment } from "./environment";
 
 /**
  * Zod schema for shop configuration validation
@@ -19,9 +19,9 @@ const shopConfigSchema = z.object({
   url: z.string().url(),
   country: z.string(),
   currency: z.string(),
-  type: z.enum(['local', 'global']),
+  type: z.enum(["local", "global"]),
   enabled: z.boolean(),
-  scraper: z.enum(['playwright', 'simple', 'scrapy']),
+  scraper: z.enum(["playwright", "simple", "scrapy"]),
   rate_limit: z.number().positive(),
   ships_to: z.array(z.string()).optional(),
   shipping: z
@@ -67,7 +67,7 @@ const shopListSchema = z.object({
  */
 export function loadShopConfig(filePath: string): ShopConfig[] {
   try {
-    const fileContent = fs.readFileSync(filePath, 'utf8');
+    const fileContent = fs.readFileSync(filePath, "utf8");
     const data = yaml.load(fileContent);
 
     const result = shopListSchema.parse(data);
@@ -95,7 +95,7 @@ export function loadAllShopConfigs(dirPath: string): ShopConfig[] {
 
         if (stat.isDirectory()) {
           loadConfigsRecursive(filePath);
-        } else if (file.endsWith('.yaml') || file.endsWith('.yml')) {
+        } else if (file.endsWith(".yaml") || file.endsWith(".yml")) {
           const shopConfigs = loadShopConfig(filePath);
           configs.push(...shopConfigs);
         }
@@ -131,7 +131,7 @@ export function getRegionConfigPath(): string {
  */
 export function loadLocalShops(country?: string): ShopConfig[] {
   const basePath = getShopConfigPath();
-  const localPath = path.join(basePath, 'local');
+  const localPath = path.join(basePath, "local");
 
   if (country) {
     const countryFile = path.join(localPath, `${country.toLowerCase()}.yaml`);
@@ -141,7 +141,7 @@ export function loadLocalShops(country?: string): ShopConfig[] {
     return [];
   }
 
-  return loadAllShopConfigs(localPath).filter((shop) => shop.type === 'local');
+  return loadAllShopConfigs(localPath).filter((shop) => shop.type === "local");
 }
 
 /**
@@ -149,9 +149,11 @@ export function loadLocalShops(country?: string): ShopConfig[] {
  */
 export function loadGlobalShops(): ShopConfig[] {
   const basePath = getShopConfigPath();
-  const globalPath = path.join(basePath, 'global');
+  const globalPath = path.join(basePath, "global");
 
-  return loadAllShopConfigs(globalPath).filter((shop) => shop.type === 'global');
+  return loadAllShopConfigs(globalPath).filter(
+    (shop) => shop.type === "global",
+  );
 }
 
 /**
@@ -180,13 +182,15 @@ export function getShopById(shopId: string): ShopConfig | undefined {
  * Get shops by country
  */
 export function getShopsByCountry(country: string): ShopConfig[] {
-  return loadAllShops().filter((shop) => shop.country.toLowerCase() === country.toLowerCase());
+  return loadAllShops().filter(
+    (shop) => shop.country.toLowerCase() === country.toLowerCase(),
+  );
 }
 
 /**
  * Get shops by type
  */
-export function getShopsByType(type: 'local' | 'global'): ShopConfig[] {
+export function getShopsByType(type: "local" | "global"): ShopConfig[] {
   return loadAllShops().filter((shop) => shop.type === type);
 }
 
@@ -220,7 +224,7 @@ export function loadRegionalConfig(country: string): RegionalConfig | null {
   }
 
   try {
-    const fileContent = fs.readFileSync(filePath, 'utf8');
+    const fileContent = fs.readFileSync(filePath, "utf8");
     const data = yaml.load(fileContent);
     return regionConfigSchema.parse(data);
   } catch (error) {

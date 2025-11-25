@@ -11,10 +11,10 @@ shops:
     currency: ILS
     type: local
     enabled: true
-    scraper_type: playwright  # Requires JavaScript rendering
+    scraper_type: playwright # Requires JavaScript rendering
     rate_limit:
       requests_per_minute: 10
-      delay_between_requests: 6  # seconds
+      delay_between_requests: 6 # seconds
     categories:
       - electronics
       - computers
@@ -70,7 +70,7 @@ shops:
       requests_per_minute: 15
       delay_between_requests: 4
     categories:
-      - price_comparison  # Zap is itself a price comparison site
+      - price_comparison # Zap is itself a price comparison site
       - electronics
       - appliances
       - general

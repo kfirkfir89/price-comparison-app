@@ -105,20 +105,23 @@ This is a next-generation price comparison platform that intelligently helps use
 ## 🛠️ Technology Stack
 
 ### Frontend
-- **Framework**: React 18 with TypeScript 5
-- **Build Tool**: Vite 5
-- **Styling**: TailwindCSS 3 + shadcn/ui
+
+- **Framework**: React 19 with TypeScript 5
+- **Build Tool**: Vite 7
+- **Styling**: TailwindCSS 4 + shadcn/ui
 - **State Management**: Zustand
 - **Data Fetching**: TanStack Query
-- **Routing**: React Router v6
+- **Routing**: React Router v7
 
 ### Backend
+
 - **API Gateway**: Node.js 20 + Fastify
 - **Microservices**: Python 3.11 + FastAPI
 - **Validation**: Zod (TS) + Pydantic (Python)
 - **Task Queue**: Celery + RabbitMQ
 
 ### Databases & Search
+
 - **Database**: MongoDB 7.0
 - **Cache**: Redis 7.2
 - **Keyword Search**: Meilisearch 1.5
@@ -126,12 +129,14 @@ This is a next-generation price comparison platform that intelligently helps use
 - **Message Queue**: RabbitMQ 3.12
 
 ### Scraping Stack
+
 - **Browser Automation**: Playwright
 - **HTML Parsing**: BeautifulSoup4
 - **Framework**: Scrapy
 - **Anti-Detection**: playwright-stealth
 
 ### Infrastructure
+
 - **Containerization**: Docker + Docker Compose
 - **Monorepo**: PNPM Workspaces
 - **Version Control**: Git
@@ -150,6 +155,7 @@ Before you begin, ensure you have the following installed:
 - **Git**: Latest version
 
 **Check your versions:**
+
 ```bash
 node --version    # Should be v20.x.x or higher
 pnpm --version    # Should be 8.x.x or higher
@@ -365,13 +371,13 @@ The system uses environment variables for configuration. See [`.env.example`](.e
 
 ### Critical Variables
 
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `MONGODB_URI` | MongoDB connection string | `mongodb://localhost:27017/price-comparison` |
-| `REDIS_URL` | Redis connection URL | `redis://:password@localhost:6379/0` |
-| `MEILISEARCH_HOST` | Meilisearch server URL | `http://localhost:7700` |
-| `MEILISEARCH_MASTER_KEY` | Meilisearch master key | `your_master_key_here` |
-| `RABBITMQ_URL` | RabbitMQ connection URL | `amqp://admin:password@localhost:5672` |
+| Variable                 | Description               | Example                                      |
+| ------------------------ | ------------------------- | -------------------------------------------- |
+| `MONGODB_URI`            | MongoDB connection string | `mongodb://localhost:27017/price-comparison` |
+| `REDIS_URL`              | Redis connection URL      | `redis://:password@localhost:6379/0`         |
+| `MEILISEARCH_HOST`       | Meilisearch server URL    | `http://localhost:7700`                      |
+| `MEILISEARCH_MASTER_KEY` | Meilisearch master key    | `your_master_key_here`                       |
+| `RABBITMQ_URL`           | RabbitMQ connection URL   | `amqp://admin:password@localhost:5672`       |
 
 ### Feature Flags
 
@@ -390,17 +396,17 @@ FEATURE_VECTOR_SEARCH=false        # Coming soon
 
 ### Root Scripts
 
-| Script | Description |
-|--------|-------------|
-| `pnpm dev` | Run all services in development mode |
-| `pnpm build` | Build all applications |
-| `pnpm test` | Run all tests |
-| `pnpm lint` | Lint all code |
-| `pnpm format` | Format all code with Prettier |
-| `pnpm docker:up` | Start Docker services |
-| `pnpm docker:down` | Stop Docker services |
-| `pnpm docker:logs` | View Docker logs |
-| `pnpm clean` | Clean all build artifacts and dependencies |
+| Script             | Description                                |
+| ------------------ | ------------------------------------------ |
+| `pnpm dev`         | Run all services in development mode       |
+| `pnpm build`       | Build all applications                     |
+| `pnpm test`        | Run all tests                              |
+| `pnpm lint`        | Lint all code                              |
+| `pnpm format`      | Format all code with Prettier              |
+| `pnpm docker:up`   | Start Docker services                      |
+| `pnpm docker:down` | Stop Docker services                       |
+| `pnpm docker:logs` | View Docker logs                           |
+| `pnpm clean`       | Clean all build artifacts and dependencies |
 
 ---
 
@@ -432,6 +438,7 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for deta
 ## 🗺️ Roadmap
 
 ### Phase 1: Local Shopping Core ✅ (In Progress)
+
 - [x] Project setup
 - [ ] Basic local price comparison
 - [ ] 5 shops per country (IL, US)
@@ -439,18 +446,21 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for deta
 - [ ] Basic UI
 
 ### Phase 2: Smart Recommendations (Weeks 4-6)
+
 - [ ] International price checking
 - [ ] Smart deal detection
 - [ ] Shipping/duty calculations
 - [ ] Alert system
 
 ### Phase 3: Global Mode (Weeks 7-9)
+
 - [ ] Global retailer integration
 - [ ] Mode switching UI
 - [ ] Advanced search
 - [ ] Currency handling
 
 ### Phase 4: Intelligence & Scale (Weeks 10-12)
+
 - [ ] AI-powered search
 - [ ] Price predictions
 - [ ] User accounts

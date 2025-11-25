@@ -2,21 +2,31 @@
  * Price formatting and calculation utilities
  */
 
-import { Currency } from '@price-comparison/types';
-import { convertCurrency, formatCurrencyAmount } from './currency';
+import { Currency } from "@price-comparison/types";
+import { convertCurrency, formatCurrencyAmount } from "./currency";
 
 /**
  * Format price with currency symbol
  */
-export function formatPrice(amount: number, currency: Currency, showDecimals = true): string {
-  const roundedAmount = showDecimals ? Math.round(amount * 100) / 100 : Math.round(amount);
+export function formatPrice(
+  amount: number,
+  currency: Currency,
+  showDecimals = true,
+): string {
+  const roundedAmount = showDecimals
+    ? Math.round(amount * 100) / 100
+    : Math.round(amount);
   return formatCurrencyAmount(roundedAmount, currency);
 }
 
 /**
  * Format price range
  */
-export function formatPriceRange(min: number, max: number, currency: Currency): string {
+export function formatPriceRange(
+  min: number,
+  max: number,
+  currency: Currency,
+): string {
   if (min === max) {
     return formatPrice(min, currency);
   }
@@ -26,14 +36,20 @@ export function formatPriceRange(min: number, max: number, currency: Currency): 
 /**
  * Calculate savings amount
  */
-export function calculateSavings(originalPrice: number, discountedPrice: number): number {
+export function calculateSavings(
+  originalPrice: number,
+  discountedPrice: number,
+): number {
   return Math.max(0, originalPrice - discountedPrice);
 }
 
 /**
  * Calculate savings percentage
  */
-export function calculateSavingsPercentage(originalPrice: number, discountedPrice: number): number {
+export function calculateSavingsPercentage(
+  originalPrice: number,
+  discountedPrice: number,
+): number {
   if (originalPrice <= 0) {
     return 0;
   }
@@ -48,13 +64,13 @@ export function calculateSavingsPercentage(originalPrice: number, discountedPric
 export function formatSavings(
   originalPrice: number,
   discountedPrice: number,
-  currency: Currency
+  currency: Currency,
 ): string {
   const savings = calculateSavings(originalPrice, discountedPrice);
   const percentage = calculateSavingsPercentage(originalPrice, discountedPrice);
 
   if (savings === 0) {
-    return '';
+    return "";
   }
 
   return `Save ${formatPrice(savings, currency)} (${percentage}%)`;
@@ -74,7 +90,10 @@ export function getBestPrice(prices: number[]): number | null {
 /**
  * Calculate price difference
  */
-export function calculatePriceDifference(price1: number, price2: number): number {
+export function calculatePriceDifference(
+  price1: number,
+  price2: number,
+): number {
   return Math.abs(price1 - price2);
 }
 
@@ -84,7 +103,7 @@ export function calculatePriceDifference(price1: number, price2: number): number
 export function isSignificantPriceDifference(
   price1: number,
   price2: number,
-  thresholdPercent = 5
+  thresholdPercent = 5,
 ): boolean {
   const difference = calculatePriceDifference(price1, price2);
   const basePrice = Math.min(price1, price2);
@@ -128,7 +147,10 @@ export function formatPriceDisplay(options: PriceDisplayOptions): {
 
   if (originalAmount && originalAmount > amount && showSavings) {
     result.originalPrice = formatPrice(originalAmount, currency);
-    result.savings = formatPrice(calculateSavings(originalAmount, amount), currency);
+    result.savings = formatPrice(
+      calculateSavings(originalAmount, amount),
+      currency,
+    );
     result.savingsPercent = calculateSavingsPercentage(originalAmount, amount);
   }
 
@@ -138,7 +160,10 @@ export function formatPriceDisplay(options: PriceDisplayOptions): {
 /**
  * Calculate price per unit
  */
-export function calculatePricePerUnit(totalPrice: number, quantity: number): number {
+export function calculatePricePerUnit(
+  totalPrice: number,
+  quantity: number,
+): number {
   if (quantity <= 0) {
     return totalPrice;
   }
@@ -153,7 +178,7 @@ export function comparePricesAcrossCurrencies(
   price1: number,
   currency1: Currency,
   price2: number,
-  currency2: Currency
+  currency2: Currency,
 ): number {
   // Convert both prices to USD for comparison
   const price1InUSD = convertCurrency(price1, currency1, Currency.USD);
@@ -166,7 +191,7 @@ export function comparePricesAcrossCurrencies(
  * Get cheapest price from a list with different currencies
  */
 export function getCheapestPrice(
-  prices: Array<{ amount: number; currency: Currency }>
+  prices: Array<{ amount: number; currency: Currency }>,
 ): { amount: number; currency: Currency } | null {
   if (prices.length === 0) {
     return null;
@@ -177,7 +202,7 @@ export function getCheapestPrice(
       current.amount,
       current.currency,
       cheapest.amount,
-      cheapest.currency
+      cheapest.currency,
     );
 
     return comparison < 0 ? current : cheapest;

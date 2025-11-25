@@ -4,16 +4,16 @@
  */
 
 // Environment configuration
-export * from './environment';
+export * from "./environment";
 
 // Feature flags
-export * from './features';
+export * from "./features";
 
 // Database configurations
-export * from './database';
+export * from "./database";
 
 // Service configurations
-export * from './services';
+export * from "./services";
 
 // Shop configurations
-export * from './shops';
+export * from "./shops";

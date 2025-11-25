@@ -58,7 +58,7 @@ export interface PaginationParams {
  */
 export interface HealthCheckResponse {
   /** Service status */
-  status: 'healthy' | 'degraded' | 'unhealthy';
+  status: "healthy" | "degraded" | "unhealthy";
   /** Service version */
   version: string;
   /** Uptime in seconds */
@@ -69,27 +69,27 @@ export interface HealthCheckResponse {
   checks: {
     /** Database connectivity */
     database?: {
-      status: 'up' | 'down';
+      status: "up" | "down";
       latency_ms?: number;
     };
     /** Redis cache */
     redis?: {
-      status: 'up' | 'down';
+      status: "up" | "down";
       latency_ms?: number;
     };
     /** Meilisearch */
     meilisearch?: {
-      status: 'up' | 'down';
+      status: "up" | "down";
       latency_ms?: number;
     };
     /** Qdrant */
     qdrant?: {
-      status: 'up' | 'down';
+      status: "up" | "down";
       latency_ms?: number;
     };
     /** RabbitMQ */
     rabbitmq?: {
-      status: 'up' | 'down';
+      status: "up" | "down";
       latency_ms?: number;
     };
   };
@@ -161,13 +161,13 @@ export interface ApiHeaders {
   /** Authorization token */
   authorization?: string;
   /** Content type */
-  'content-type'?: string;
+  "content-type"?: string;
   /** User agent */
-  'user-agent'?: string;
+  "user-agent"?: string;
   /** Request ID */
-  'x-request-id'?: string;
+  "x-request-id"?: string;
   /** API version */
-  'x-api-version'?: string;
+  "x-api-version"?: string;
 }
 
 /**

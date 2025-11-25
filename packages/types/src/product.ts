@@ -3,7 +3,7 @@
  * Based on the schema defined in 2.md (lines 257-328)
  */
 
-import { Currency, PriceTrend, ShopType, AvailabilityStatus } from './enums';
+import { Currency, PriceTrend, ShopType, AvailabilityStatus } from "./enums";
 
 /**
  * Shop information for a product listing
@@ -220,9 +220,12 @@ export interface ProductGroup {
 /**
  * Product creation input (for scraping/inserting new products)
  */
-export type CreateProductInput = Omit<Product, '_id' | 'created_at' | 'updated_at' | 'last_scraped_at'>;
+export type CreateProductInput = Omit<
+  Product,
+  "_id" | "created_at" | "updated_at" | "last_scraped_at"
+>;
 
 /**
  * Product update input (for updating existing products)
  */
-export type UpdateProductInput = Partial<Omit<Product, '_id' | 'created_at'>>;
+export type UpdateProductInput = Partial<Omit<Product, "_id" | "created_at">>;

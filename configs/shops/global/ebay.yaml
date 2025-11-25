@@ -9,15 +9,15 @@ shop:
   country: usa
   base_currency: USD
   type: global
-  enabled: false  # Disabled for MVP - will enable in Phase 3
-  scraper_type: playwright  # JavaScript-heavy site
-  is_marketplace: true  # Individual and business sellers
+  enabled: false # Disabled for MVP - will enable in Phase 3
+  scraper_type: playwright # JavaScript-heavy site
+  is_marketplace: true # Individual and business sellers
 
   # Rate limiting
   rate_limit:
     requests_per_minute: 10
-    delay_between_requests: 6  # seconds
-    use_proxy: true  # Recommended
+    delay_between_requests: 6 # seconds
+    use_proxy: true # Recommended
     respect_robots_txt: true
 
   # Categories available
@@ -118,7 +118,7 @@ shipping:
       express: 5-12
 
     shipping_cost_range:
-      low: 10  # USD
+      low: 10 # USD
       typical: 25
       high: 60
 
@@ -154,8 +154,8 @@ import_rules:
       or through postal service before receiving item.
 
   israel:
-    duty_free_threshold: 75  # USD
-    vat_rate: 0.17  # 17%
+    duty_free_threshold: 75 # USD
+    vat_rate: 0.17 # 17%
 
     with_gsp:
       import_fees_at_checkout: true
@@ -163,7 +163,7 @@ import_rules:
       typical_total_fee: "17-30% of item value"
 
     without_gsp:
-      customs_clearance_fee: 30  # ILS
+      customs_clearance_fee: 30 # ILS
       vat_on: "item_value + shipping + duty"
       delivery_fee_possible: true
 
@@ -294,8 +294,8 @@ scraping:
 
   pagination:
     type: "numbered"
-    results_per_page: 50  # Can be adjusted (25/50/100/200)
-    max_pages: 200  # eBay limit
+    results_per_page: 50 # Can be adjusted (25/50/100/200)
+    max_pages: 200 # eBay limit
 
   notes: |
     - Respect rate limits to avoid IP bans
@@ -335,7 +335,7 @@ api:
 
   affiliate_program:
     name: "eBay Partner Network"
-    commission_rate: "1-4%"  # Varies by category
+    commission_rate: "1-4%" # Varies by category
     available: true
     notes: "Can be combined with Browse API"
 

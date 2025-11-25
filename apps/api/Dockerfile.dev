@@ -1,0 +1,40 @@
+# ============================================
+# API Gateway Development Dockerfile
+# Hot reload with tsx watch
+# ============================================
+
+FROM node:20-alpine
+
+# Install pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+# Create app directory
+WORKDIR /app
+
+# Copy workspace configuration files
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml* ./
+
+# Copy all package.json files for workspace packages
+COPY packages/types/package.json ./packages/types/
+COPY packages/config/package.json ./packages/config/
+COPY packages/utils/package.json ./packages/utils/
+COPY apps/api/package.json ./apps/api/
+
+# Copy source code BEFORE install (needed for postinstall build:packages)
+COPY packages ./packages
+COPY apps/api ./apps/api
+
+# Install all dependencies (including devDependencies for tsx)
+# postinstall will build packages automatically
+RUN pnpm install --frozen-lockfile
+
+# Set development environment
+ENV NODE_ENV=development
+ENV API_PORT=4000
+
+# Expose API and debug ports
+EXPOSE 4000
+EXPOSE 9229
+
+# Start with tsx watch for hot reload
+CMD ["pnpm", "--filter", "@price-comparison/api", "dev"]

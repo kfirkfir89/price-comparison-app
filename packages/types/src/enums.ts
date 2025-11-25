@@ -7,9 +7,9 @@
  */
 export enum ShopType {
   /** Local shop in user's country - fast delivery, no import fees */
-  LOCAL = 'local',
+  LOCAL = "local",
   /** Global retailer - international shipping, may have import fees */
-  GLOBAL = 'global',
+  GLOBAL = "global",
 }
 
 /**
@@ -17,9 +17,9 @@ export enum ShopType {
  */
 export enum ShoppingMode {
   /** Show only local shops (default) */
-  LOCAL = 'local',
+  LOCAL = "local",
   /** Show only global/international retailers */
-  GLOBAL = 'global',
+  GLOBAL = "global",
 }
 
 /**
@@ -27,13 +27,13 @@ export enum ShoppingMode {
  */
 export enum Currency {
   /** Israeli Shekel */
-  ILS = 'ILS',
+  ILS = "ILS",
   /** US Dollar */
-  USD = 'USD',
+  USD = "USD",
   /** Euro */
-  EUR = 'EUR',
+  EUR = "EUR",
   /** British Pound */
-  GBP = 'GBP',
+  GBP = "GBP",
 }
 
 /**
@@ -41,15 +41,15 @@ export enum Currency {
  */
 export enum Country {
   /** Israel */
-  IL = 'IL',
+  IL = "IL",
   /** United States */
-  US = 'US',
+  US = "US",
   /** United Kingdom */
-  UK = 'UK',
+  UK = "UK",
   /** Germany */
-  DE = 'DE',
+  DE = "DE",
   /** France */
-  FR = 'FR',
+  FR = "FR",
 }
 
 /**
@@ -57,11 +57,11 @@ export enum Country {
  */
 export enum PriceTrend {
   /** Price is increasing */
-  RISING = 'rising',
+  RISING = "rising",
   /** Price is decreasing */
-  FALLING = 'falling',
+  FALLING = "falling",
   /** Price is stable */
-  STABLE = 'stable',
+  STABLE = "stable",
 }
 
 /**
@@ -69,11 +69,11 @@ export enum PriceTrend {
  */
 export enum ScraperType {
   /** Use Playwright headless browser */
-  PLAYWRIGHT = 'playwright',
+  PLAYWRIGHT = "playwright",
   /** Use simple HTTP requests + BeautifulSoup */
-  SIMPLE = 'simple',
+  SIMPLE = "simple",
   /** Use Scrapy framework */
-  SCRAPY = 'scrapy',
+  SCRAPY = "scrapy",
 }
 
 /**
@@ -81,15 +81,15 @@ export enum ScraperType {
  */
 export enum AvailabilityStatus {
   /** Product is in stock */
-  IN_STOCK = 'in_stock',
+  IN_STOCK = "in_stock",
   /** Product is out of stock */
-  OUT_OF_STOCK = 'out_of_stock',
+  OUT_OF_STOCK = "out_of_stock",
   /** Low stock remaining */
-  LOW_STOCK = 'low_stock',
+  LOW_STOCK = "low_stock",
   /** Pre-order available */
-  PRE_ORDER = 'pre_order',
+  PRE_ORDER = "pre_order",
   /** Unknown availability */
-  UNKNOWN = 'unknown',
+  UNKNOWN = "unknown",
 }
 
 /**
@@ -97,13 +97,13 @@ export enum AvailabilityStatus {
  */
 export enum SortBy {
   /** Sort by relevance score (default) */
-  RELEVANCE = 'relevance',
+  RELEVANCE = "relevance",
   /** Sort by price ascending */
-  PRICE_ASC = 'price_asc',
+  PRICE_ASC = "price_asc",
   /** Sort by price descending */
-  PRICE_DESC = 'price_desc',
+  PRICE_DESC = "price_desc",
   /** Sort by rating */
-  RATING = 'rating',
+  RATING = "rating",
   /** Sort by newest first */
-  NEWEST = 'newest',
+  NEWEST = "newest",
 }

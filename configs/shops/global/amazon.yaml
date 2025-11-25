@@ -9,15 +9,15 @@ shop:
   country: usa
   base_currency: USD
   type: global
-  enabled: false  # Disabled for MVP - will enable in Phase 3
-  scraper_type: playwright  # Requires JavaScript + anti-bot measures
-  is_marketplace: true  # Has multiple sellers
+  enabled: false # Disabled for MVP - will enable in Phase 3
+  scraper_type: playwright # Requires JavaScript + anti-bot measures
+  is_marketplace: true # Has multiple sellers
 
   # Rate limiting - Amazon is strict about scraping
   rate_limit:
     requests_per_minute: 5
-    delay_between_requests: 12  # seconds
-    use_proxy: true  # Recommended to rotate IPs
+    delay_between_requests: 12 # seconds
+    use_proxy: true # Recommended to rotate IPs
     respect_robots_txt: true
 
   # Categories available
@@ -79,7 +79,7 @@ shipping:
             min: 25
             max: 55
             currency: USD
-      free_shipping_threshold: 125  # USD
+      free_shipping_threshold: 125 # USD
       restrictions:
         - "Some items cannot be shipped internationally"
         - "Lithium batteries restrictions apply"
@@ -96,23 +96,23 @@ shipping:
 import_rules:
   israel:
     # Israel customs regulations
-    duty_free_threshold: 75  # USD - no duty below this
-    vat_rate: 0.17  # 17% VAT on all imports
-    duty_calculation: "varies_by_category"  # Electronics: 0-12%, Clothing: 12%, etc.
+    duty_free_threshold: 75 # USD - no duty below this
+    vat_rate: 0.17 # 17% VAT on all imports
+    duty_calculation: "varies_by_category" # Electronics: 0-12%, Clothing: 12%, etc.
 
     # Additional fees
     additional_fees:
-      handling_fee: 30  # ILS - customs clearance
+      handling_fee: 30 # ILS - customs clearance
       vat_applies_to: "product_price + shipping + duty"
 
     # Category-specific duties
     category_duties:
-      electronics: 0.12  # 12%
+      electronics: 0.12 # 12%
       smartphones: 0.12
-      computers: 0.05  # 5%
+      computers: 0.05 # 5%
       clothing: 0.12
       shoes: 0.12
-      books: 0.00  # Duty free
+      books: 0.00 # Duty free
       toys: 0.12
       cosmetics: 0.12
 
@@ -140,7 +140,7 @@ scraping:
     use_residential_proxies: true
     randomize_delays: true
     session_cookies_required: true
-    captcha_service: "2captcha"  # For CAPTCHA solving
+    captcha_service: "2captcha" # For CAPTCHA solving
 
   selectors:
     # CSS selectors for scraping (update as Amazon changes their layout)
@@ -184,7 +184,7 @@ affiliate:
     - spain
     - india
     - brazil
-  commission_rate: "1-10%"  # Varies by category
+  commission_rate: "1-10%" # Varies by category
   notes: |
     - Sign up required for each Amazon region
     - Commission rates vary by product category

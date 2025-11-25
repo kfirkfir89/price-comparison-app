@@ -12,21 +12,24 @@ import {
   parseISO,
   differenceInDays,
   differenceInHours,
-} from 'date-fns';
+} from "date-fns";
 
 /**
  * Format date to display format
  */
-export function formatDate(date: Date | string, formatString = 'PPP'): string {
-  const dateObj = typeof date === 'string' ? parseISO(date) : date;
+export function formatDate(date: Date | string, formatString = "PPP"): string {
+  const dateObj = typeof date === "string" ? parseISO(date) : date;
   return format(dateObj, formatString);
 }
 
 /**
  * Format date with time
  */
-export function formatDateTime(date: Date | string, formatString = 'PPP p'): string {
-  const dateObj = typeof date === 'string' ? parseISO(date) : date;
+export function formatDateTime(
+  date: Date | string,
+  formatString = "PPP p",
+): string {
+  const dateObj = typeof date === "string" ? parseISO(date) : date;
   return format(dateObj, formatString);
 }
 
@@ -34,7 +37,7 @@ export function formatDateTime(date: Date | string, formatString = 'PPP p'): str
  * Format relative time (e.g., "2 hours ago")
  */
 export function formatRelativeTime(date: Date | string): string {
-  const dateObj = typeof date === 'string' ? parseISO(date) : date;
+  const dateObj = typeof date === "string" ? parseISO(date) : date;
   return formatDistanceToNow(dateObj, { addSuffix: true });
 }
 
@@ -51,19 +54,19 @@ export function estimateDeliveryDate(days: number, fromDate?: Date): Date {
  */
 export function formatDeliveryEstimate(days: number): string {
   if (days === 0) {
-    return 'Today';
+    return "Today";
   }
   if (days === 1) {
-    return 'Tomorrow';
+    return "Tomorrow";
   }
   if (days <= 7) {
     return `${days} days`;
   }
   if (days <= 14) {
-    return '1-2 weeks';
+    return "1-2 weeks";
   }
   if (days <= 30) {
-    return '2-4 weeks';
+    return "2-4 weeks";
   }
   return `${Math.ceil(days / 30)} months`;
 }
@@ -75,14 +78,14 @@ export function formatDeliveryRange(minDays: number, maxDays: number): string {
   const minDate = estimateDeliveryDate(minDays);
   const maxDate = estimateDeliveryDate(maxDays);
 
-  return `${formatDate(minDate, 'MMM d')} - ${formatDate(maxDate, 'MMM d')}`;
+  return `${formatDate(minDate, "MMM d")} - ${formatDate(maxDate, "MMM d")}`;
 }
 
 /**
  * Check if date is in the past
  */
 export function isPastDate(date: Date | string): boolean {
-  const dateObj = typeof date === 'string' ? parseISO(date) : date;
+  const dateObj = typeof date === "string" ? parseISO(date) : date;
   return isBefore(dateObj, new Date());
 }
 
@@ -90,7 +93,7 @@ export function isPastDate(date: Date | string): boolean {
  * Check if date is in the future
  */
 export function isFutureDate(date: Date | string): boolean {
-  const dateObj = typeof date === 'string' ? parseISO(date) : date;
+  const dateObj = typeof date === "string" ? parseISO(date) : date;
   return isAfter(dateObj, new Date());
 }
 
@@ -98,7 +101,7 @@ export function isFutureDate(date: Date | string): boolean {
  * Get days until date
  */
 export function getDaysUntil(date: Date | string): number {
-  const dateObj = typeof date === 'string' ? parseISO(date) : date;
+  const dateObj = typeof date === "string" ? parseISO(date) : date;
   return differenceInDays(dateObj, new Date());
 }
 
@@ -106,7 +109,7 @@ export function getDaysUntil(date: Date | string): number {
  * Get hours until date
  */
 export function getHoursUntil(date: Date | string): number {
-  const dateObj = typeof date === 'string' ? parseISO(date) : date;
+  const dateObj = typeof date === "string" ? parseISO(date) : date;
   return differenceInHours(dateObj, new Date());
 }
 
@@ -114,15 +117,19 @@ export function getHoursUntil(date: Date | string): number {
  * Add hours to a date
  */
 export function addHoursToDate(date: Date | string, hours: number): Date {
-  const dateObj = typeof date === 'string' ? parseISO(date) : date;
+  const dateObj = typeof date === "string" ? parseISO(date) : date;
   return addHours(dateObj, hours);
 }
 
 /**
  * Check if data is stale (older than threshold)
  */
-export function isDataStale(lastUpdated: Date | string, thresholdMinutes = 60): boolean {
-  const lastUpdatedObj = typeof lastUpdated === 'string' ? parseISO(lastUpdated) : lastUpdated;
+export function isDataStale(
+  lastUpdated: Date | string,
+  thresholdMinutes = 60,
+): boolean {
+  const lastUpdatedObj =
+    typeof lastUpdated === "string" ? parseISO(lastUpdated) : lastUpdated;
   const now = new Date();
   const diffMinutes = differenceInHours(now, lastUpdatedObj) * 60;
 

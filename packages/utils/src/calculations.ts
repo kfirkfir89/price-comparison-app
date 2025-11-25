@@ -2,8 +2,8 @@
  * Calculation utilities for shipping, duties, and total costs
  */
 
-import { Currency } from '@price-comparison/types';
-import { convertCurrency } from './currency';
+import { Currency } from "@price-comparison/types";
+import { convertCurrency } from "./currency";
 
 /**
  * Calculate VAT (Value Added Tax)
@@ -17,14 +17,20 @@ export function calculateVAT(basePrice: number, vatRate: number): number {
 /**
  * Calculate price including VAT
  */
-export function calculatePriceWithVAT(basePrice: number, vatRate: number): number {
+export function calculatePriceWithVAT(
+  basePrice: number,
+  vatRate: number,
+): number {
   return basePrice + calculateVAT(basePrice, vatRate);
 }
 
 /**
  * Calculate price excluding VAT
  */
-export function calculatePriceWithoutVAT(priceWithVAT: number, vatRate: number): number {
+export function calculatePriceWithoutVAT(
+  priceWithVAT: number,
+  vatRate: number,
+): number {
   return Math.round((priceWithVAT / (1 + vatRate)) * 100) / 100;
 }
 
@@ -37,7 +43,7 @@ export function calculatePriceWithoutVAT(priceWithVAT: number, vatRate: number):
 export function calculateImportDuty(
   basePrice: number,
   dutyRate: number,
-  dutyThreshold = 75
+  dutyThreshold = 75,
 ): number {
   if (basePrice < dutyThreshold) {
     return 0;
@@ -55,7 +61,7 @@ export function calculateImportDuty(
 export function calculateShippingCost(
   weightKg: number,
   baseRate: number,
-  fixedCost = 5
+  fixedCost = 5,
 ): number {
   return Math.round((weightKg * baseRate + fixedCost) * 100) / 100;
 }
@@ -87,7 +93,9 @@ export interface LandedCostBreakdown {
   currency: Currency;
 }
 
-export function calculateLandedCost(input: LandedCostInput): LandedCostBreakdown {
+export function calculateLandedCost(
+  input: LandedCostInput,
+): LandedCostBreakdown {
   const {
     basePrice,
     baseCurrency,
@@ -101,15 +109,32 @@ export function calculateLandedCost(input: LandedCostInput): LandedCostBreakdown
   } = input;
 
   // Convert base price to target currency
-  const basePriceConverted = convertCurrency(basePrice, baseCurrency, targetCurrency);
+  const basePriceConverted = convertCurrency(
+    basePrice,
+    baseCurrency,
+    targetCurrency,
+  );
 
   // Calculate import duty (based on USD value)
   const basePriceInUSD = convertCurrency(basePrice, baseCurrency, Currency.USD);
-  const importDutyUSD = calculateImportDuty(basePriceInUSD, dutyRate, dutyThreshold);
-  const importDuty = convertCurrency(importDutyUSD, Currency.USD, targetCurrency);
+  const importDutyUSD = calculateImportDuty(
+    basePriceInUSD,
+    dutyRate,
+    dutyThreshold,
+  );
+  const importDuty = convertCurrency(
+    importDutyUSD,
+    Currency.USD,
+    targetCurrency,
+  );
 
   // Subtotal before VAT (price + shipping + duty + fees)
-  const subtotal = basePriceConverted + shippingCost + importDuty + handlingFee + customsClearanceFee;
+  const subtotal =
+    basePriceConverted +
+    shippingCost +
+    importDuty +
+    handlingFee +
+    customsClearanceFee;
 
   // Calculate VAT on subtotal
   const vat = calculateVAT(subtotal, vatRate);
@@ -133,7 +158,10 @@ export function calculateLandedCost(input: LandedCostInput): LandedCostBreakdown
 /**
  * Calculate discount percentage from original and sale price
  */
-export function calculateDiscountPercentage(originalPrice: number, salePrice: number): number {
+export function calculateDiscountPercentage(
+  originalPrice: number,
+  salePrice: number,
+): number {
   if (originalPrice <= 0) {
     return 0;
   }
@@ -166,7 +194,9 @@ export interface RecommendationScoreInput {
   };
 }
 
-export function calculateRecommendationScore(input: RecommendationScoreInput): number {
+export function calculateRecommendationScore(
+  input: RecommendationScoreInput,
+): number {
   const {
     priceAdvantage,
     deliverySpeed,
@@ -196,7 +226,10 @@ export function calculateRecommendationScore(input: RecommendationScoreInput): n
  * Calculate delivery time score (0-100)
  * Faster delivery = higher score
  */
-export function calculateDeliveryScore(deliveryDays: number, maxDays = 30): number {
+export function calculateDeliveryScore(
+  deliveryDays: number,
+  maxDays = 30,
+): number {
   if (deliveryDays <= 0) {
     return 100;
   }
@@ -215,7 +248,7 @@ export function calculateDeliveryScore(deliveryDays: number, maxDays = 30): numb
  */
 export function calculatePriceAdvantageScore(
   currentPrice: number,
-  competitorPrice: number
+  competitorPrice: number,
 ): number {
   if (currentPrice <= 0 || competitorPrice <= 0) {
     return 0;

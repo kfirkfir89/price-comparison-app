@@ -7,17 +7,17 @@ shop:
   name: "AliExpress"
   url: "https://www.aliexpress.com"
   country: china
-  base_currency: USD  # Displays in multiple currencies but processes in USD
+  base_currency: USD # Displays in multiple currencies but processes in USD
   type: global
-  enabled: false  # Disabled for MVP - will enable in Phase 3
-  scraper_type: playwright  # Heavy JavaScript site
-  is_marketplace: true  # Thousands of individual sellers
+  enabled: false # Disabled for MVP - will enable in Phase 3
+  scraper_type: playwright # Heavy JavaScript site
+  is_marketplace: true # Thousands of individual sellers
 
   # Rate limiting
   rate_limit:
     requests_per_minute: 8
-    delay_between_requests: 8  # seconds
-    use_proxy: true  # Recommended for stability
+    delay_between_requests: 8 # seconds
+    use_proxy: true # Recommended for stability
     respect_robots_txt: true
 
   # Categories available
@@ -117,15 +117,15 @@ import_rules:
       - Buyer responsible for import duties in most countries
 
   israel:
-    duty_free_threshold: 75  # USD
-    vat_rate: 0.17  # 17%
+    duty_free_threshold: 75 # USD
+    vat_rate: 0.17 # 17%
     typical_experience: |
       - Many packages under $75 pass customs without fees
       - Packages marked as "gift" may receive preferential treatment
       - Israel Post may charge handling fee even on low-value items
       - Delivery person collects payment for taxes/fees upon delivery
 
-    handling_fee: 30  # ILS - if customs processing required
+    handling_fee: 30 # ILS - if customs processing required
 
     category_duties:
       electronics: 0.12
@@ -241,7 +241,7 @@ api:
       - "Real-time pricing"
       - "Affiliate link generation"
       - "Commission tracking"
-    commission_rate: "5-8%"  # Varies by category
+    commission_rate: "5-8%" # Varies by category
     approval_required: true
     documentation: "https://portals.aliexpress.com"
 

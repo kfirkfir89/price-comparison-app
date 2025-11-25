@@ -2,7 +2,7 @@
  * Zod validation schemas for common data structures
  */
 
-import { z } from 'zod';
+import { z } from "zod";
 
 /**
  * URL validation schema
@@ -75,7 +75,9 @@ export const shopIdSchema = z.string().min(1).max(50).trim();
 /**
  * Product ID schema (MongoDB ObjectId)
  */
-export const productIdSchema = z.string().regex(/^[0-9a-fA-F]{24}$/, 'Invalid product ID');
+export const productIdSchema = z
+  .string()
+  .regex(/^[0-9a-fA-F]{24}$/, "Invalid product ID");
 
 /**
  * Country code schema (ISO 3166-1 alpha-2)
@@ -117,15 +119,19 @@ export const phoneSchema = z.string().regex(/^\+?[0-9\s-()]{7,20}$/);
  */
 export const passwordSchema = z
   .string()
-  .min(8, 'Password must be at least 8 characters')
-  .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
-  .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
-  .regex(/[0-9]/, 'Password must contain at least one number');
+  .min(8, "Password must be at least 8 characters")
+  .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+  .regex(/[a-z]/, "Password must contain at least one lowercase letter")
+  .regex(/[0-9]/, "Password must contain at least one number");
 
 /**
  * Validate array of IDs
  */
-export function createArrayOfIdsSchema(itemSchema: z.ZodString, min = 1, max = 100) {
+export function createArrayOfIdsSchema(
+  itemSchema: z.ZodString,
+  min = 1,
+  max = 100,
+) {
   return z.array(itemSchema).min(min).max(max);
 }
 
@@ -141,13 +147,15 @@ export function createEnumSchema<T extends string>(values: readonly T[]) {
  */
 export const sortSchema = z.object({
   field: z.string(),
-  order: z.enum(['asc', 'desc']).default('asc'),
+  order: z.enum(["asc", "desc"]).default("asc"),
 });
 
 /**
  * Validate filter parameters
  */
-export const filterSchema = z.record(z.union([z.string(), z.number(), z.boolean(), z.array(z.string())]));
+export const filterSchema = z.record(
+  z.union([z.string(), z.number(), z.boolean(), z.array(z.string())]),
+);
 
 /**
  * Generic API request schema
@@ -175,7 +183,11 @@ export function makeNullable<T extends z.ZodTypeAny>(schema: T) {
 /**
  * Helper: Create array schema
  */
-export function makeArray<T extends z.ZodTypeAny>(schema: T, min = 0, max?: number) {
+export function makeArray<T extends z.ZodTypeAny>(
+  schema: T,
+  min = 0,
+  max?: number,
+) {
   let arraySchema = z.array(schema).min(min);
   if (max !== undefined) {
     arraySchema = arraySchema.max(max);

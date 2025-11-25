@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 # ═══════════════════════════════════════════════════════════════
 # DEVELOPMENT OVERRIDES FOR DOCKER COMPOSE
@@ -90,37 +90,90 @@ services:
       - "${RABBITMQ_MGMT_PORT:-15672}:15672"
 
   # ═══════════════════════════════════════════════════════════════
-  # FUTURE APPLICATION SERVICES
+  # APPLICATION SERVICES
   # ═══════════════════════════════════════════════════════════════
-  # Uncomment and configure when services are implemented
 
   # API Gateway (Node.js + Fastify)
-  # api:
-  #   build:
-  #     context: ./apps/api
-  #     dockerfile: Dockerfile
-  #   volumes:
-  #     - ./apps/api/src:/app/src:ro
-  #     - /app/node_modules
-  #   environment:
-  #     NODE_ENV: development
-  #     DEBUG: '*'
-  #   ports:
-  #     - "${API_PORT:-4000}:4000"
-  #     - "9229:9229"  # Node.js debug port
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile.dev
+    volumes:
+      # Mount source code for hot reload
+      - ./apps/api/src:/app/apps/api/src
+      - ./packages:/app/packages
+      # Preserve node_modules from container
+      - /app/node_modules
+      - /app/apps/api/node_modules
+      - /app/packages/types/node_modules
+      - /app/packages/config/node_modules
+      - /app/packages/utils/node_modules
+    environment:
+      NODE_ENV: development
+      API_PORT: 4000
+      # MongoDB - use Docker service name
+      MONGODB_URI: mongodb://${MONGODB_USER:-admin}:${MONGODB_PASSWORD:-changeme}@mongodb:27017/${MONGODB_DATABASE:-price_comparison}?authSource=admin
+      MONGODB_USERNAME: ${MONGODB_USER:-admin}
+      MONGODB_PASSWORD: ${MONGODB_PASSWORD:-changeme}
+      MONGODB_DATABASE: ${MONGODB_DATABASE:-price_comparison}
+      # Redis - use Docker service name
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-changeme}
+      # Meilisearch
+      MEILISEARCH_HOST: http://meilisearch:7700
+      MEILISEARCH_MASTER_KEY: ${MEILISEARCH_MASTER_KEY:-changeme_master_key_min_16_chars}
+      # Qdrant
+      QDRANT_HOST: qdrant
+      QDRANT_PORT: 6333
+      # RabbitMQ
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: ${RABBITMQ_USER:-admin}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-changeme}
+      # Enable polling for file watching in Docker
+      CHOKIDAR_USEPOLLING: "true"
+    ports:
+      - "${API_PORT:-4000}:4000"
+      - "9229:9229" # Node.js debug port
+    depends_on:
+      - mongodb
+      - redis
+      - meilisearch
+      - qdrant
+      - rabbitmq
+    networks:
+      - price-comparison-network
 
   # Web Frontend (React + Vite)
-  # web:
-  #   build:
-  #     context: ./apps/web
-  #     dockerfile: Dockerfile.dev
-  #   volumes:
-  #     - ./apps/web/src:/app/src:ro
-  #     - /app/node_modules
-  #   environment:
-  #     NODE_ENV: development
-  #   ports:
-  #     - "${WEB_PORT:-3000}:3000"
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile.dev
+    volumes:
+      # Mount source code for hot reload
+      - ./apps/web/src:/app/apps/web/src
+      - ./apps/web/public:/app/apps/web/public
+      # Mount config files
+      - ./apps/web/vite.config.ts:/app/apps/web/vite.config.ts:ro
+      - ./apps/web/tsconfig.json:/app/apps/web/tsconfig.json:ro
+      - ./apps/web/tsconfig.app.json:/app/apps/web/tsconfig.app.json:ro
+      - ./apps/web/tsconfig.node.json:/app/apps/web/tsconfig.node.json:ro
+      - ./apps/web/index.html:/app/apps/web/index.html:ro
+      # Preserve node_modules from container
+      - /app/node_modules
+      - /app/apps/web/node_modules
+    environment:
+      NODE_ENV: development
+      VITE_API_URL: http://localhost:${API_PORT:-4000}
+      # Enable polling for file watching in Docker
+      CHOKIDAR_USEPOLLING: "true"
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    depends_on:
+      - api
+    networks:
+      - price-comparison-network
 
   # Scraper Service (Python + FastAPI)
   # scraper:

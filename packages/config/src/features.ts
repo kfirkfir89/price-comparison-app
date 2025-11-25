@@ -3,7 +3,7 @@
  * Controls which features are enabled in the application
  */
 
-import { getEnvironment } from './environment';
+import { getEnvironment } from "./environment";
 
 /**
  * Feature flag definitions
@@ -75,17 +75,18 @@ export function getDisabledFeatures(): string[] {
  */
 export const features = {
   /** Check if local shopping is enabled */
-  isLocalShoppingEnabled: () => isFeatureEnabled('localShopping'),
+  isLocalShoppingEnabled: () => isFeatureEnabled("localShopping"),
   /** Check if global shopping is enabled */
-  isGlobalShoppingEnabled: () => isFeatureEnabled('globalShopping'),
+  isGlobalShoppingEnabled: () => isFeatureEnabled("globalShopping"),
   /** Check if smart recommendations are enabled */
-  areSmartRecommendationsEnabled: () => isFeatureEnabled('smartRecommendations'),
+  areSmartRecommendationsEnabled: () =>
+    isFeatureEnabled("smartRecommendations"),
   /** Check if price alerts are enabled */
-  arePriceAlertsEnabled: () => isFeatureEnabled('priceAlerts'),
+  arePriceAlertsEnabled: () => isFeatureEnabled("priceAlerts"),
   /** Check if user accounts are enabled */
-  areUserAccountsEnabled: () => isFeatureEnabled('userAccounts'),
+  areUserAccountsEnabled: () => isFeatureEnabled("userAccounts"),
   /** Check if vector search is enabled */
-  isVectorSearchEnabled: () => isFeatureEnabled('vectorSearch'),
+  isVectorSearchEnabled: () => isFeatureEnabled("vectorSearch"),
   /** Check if comparison tables are enabled */
-  areComparisonTablesEnabled: () => isFeatureEnabled('comparisonTables'),
+  areComparisonTablesEnabled: () => isFeatureEnabled("comparisonTables"),
 };

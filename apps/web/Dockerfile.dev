@@ -1,0 +1,38 @@
+# ============================================
+# Web Frontend Development Dockerfile
+# Hot reload with Vite HMR
+# ============================================
+
+FROM node:20-alpine
+
+# Install pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+# Create app directory
+WORKDIR /app
+
+# Copy workspace configuration files
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml* ./
+
+# Copy package.json files
+COPY packages/types/package.json ./packages/types/
+COPY packages/config/package.json ./packages/config/
+COPY packages/utils/package.json ./packages/utils/
+COPY apps/web/package.json ./apps/web/
+
+# Copy source code BEFORE install (needed for postinstall build:packages)
+COPY packages ./packages
+COPY apps/web ./apps/web
+
+# Install all dependencies
+# postinstall will build packages automatically
+RUN pnpm install --frozen-lockfile
+
+# Set development environment
+ENV NODE_ENV=development
+
+# Expose Vite dev server port
+EXPOSE 3000
+
+# Start Vite dev server
+CMD ["pnpm", "--filter", "@price-comparison/web", "dev"]

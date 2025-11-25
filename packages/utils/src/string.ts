@@ -12,8 +12,8 @@ export function normalizeText(text: string): string {
   return text
     .toLowerCase()
     .trim()
-    .replace(/\s+/g, ' ') // Replace multiple spaces with single space
-    .replace(/[^\w\s-]/g, ''); // Remove special characters except hyphens
+    .replace(/\s+/g, " ") // Replace multiple spaces with single space
+    .replace(/[^\w\s-]/g, ""); // Remove special characters except hyphens
 }
 
 /**
@@ -23,16 +23,20 @@ export function slugify(text: string): string {
   return text
     .toLowerCase()
     .trim()
-    .replace(/[^\w\s-]/g, '') // Remove special characters
-    .replace(/\s+/g, '-') // Replace spaces with hyphens
-    .replace(/-+/g, '-') // Replace multiple hyphens with single hyphen
-    .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
+    .replace(/[^\w\s-]/g, "") // Remove special characters
+    .replace(/\s+/g, "-") // Replace spaces with hyphens
+    .replace(/-+/g, "-") // Replace multiple hyphens with single hyphen
+    .replace(/^-+|-+$/g, ""); // Remove leading/trailing hyphens
 }
 
 /**
  * Truncate text to a maximum length
  */
-export function truncate(text: string, maxLength: number, suffix = '...'): string {
+export function truncate(
+  text: string,
+  maxLength: number,
+  suffix = "...",
+): string {
   if (text.length <= maxLength) {
     return text;
   }
@@ -46,9 +50,9 @@ export function truncate(text: string, maxLength: number, suffix = '...'): strin
 export function titleCase(text: string): string {
   return text
     .toLowerCase()
-    .split(' ')
+    .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+    .join(" ");
 }
 
 /**
@@ -63,7 +67,7 @@ export function capitalize(text: string): string {
  * Remove HTML tags from string
  */
 export function stripHtmlTags(html: string): string {
-  return html.replace(/<[^>]*>/g, '');
+  return html.replace(/<[^>]*>/g, "");
 }
 
 /**
@@ -79,7 +83,9 @@ export function extractNumbers(text: string): number[] {
  */
 export function containsAnyKeyword(text: string, keywords: string[]): boolean {
   const normalizedText = normalizeText(text);
-  return keywords.some((keyword) => normalizedText.includes(normalizeText(keyword)));
+  return keywords.some((keyword) =>
+    normalizedText.includes(normalizeText(keyword)),
+  );
 }
 
 /**
@@ -87,15 +93,18 @@ export function containsAnyKeyword(text: string, keywords: string[]): boolean {
  */
 export function containsAllKeywords(text: string, keywords: string[]): boolean {
   const normalizedText = normalizeText(text);
-  return keywords.every((keyword) => normalizedText.includes(normalizeText(keyword)));
+  return keywords.every((keyword) =>
+    normalizedText.includes(normalizeText(keyword)),
+  );
 }
 
 /**
  * Generate a random string
  */
 export function randomString(length = 10): string {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let result = '';
+  const chars =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "";
   for (let i = 0; i < length; i++) {
     result += chars.charAt(Math.floor(Math.random() * chars.length));
   }
@@ -107,33 +116,37 @@ export function randomString(length = 10): string {
  */
 export function sanitizeFilename(filename: string): string {
   return filename
-    .replace(/[^a-zA-Z0-9.-]/g, '_')
-    .replace(/_+/g, '_')
-    .replace(/^_+|_+$/g, '');
+    .replace(/[^a-zA-Z0-9.-]/g, "_")
+    .replace(/_+/g, "_")
+    .replace(/^_+|_+$/g, "");
 }
 
 /**
  * Remove diacritics/accents from string
  */
 export function removeDiacritics(text: string): string {
-  return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
 /**
  * Escape special regex characters
  */
 export function escapeRegex(text: string): string {
-  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 /**
  * Highlight search terms in text
  */
-export function highlightText(text: string, searchTerm: string, highlightTag = 'mark'): string {
+export function highlightText(
+  text: string,
+  searchTerm: string,
+  highlightTag = "mark",
+): string {
   if (!searchTerm) return text;
 
   const escapedTerm = escapeRegex(searchTerm);
-  const regex = new RegExp(`(${escapedTerm})`, 'gi');
+  const regex = new RegExp(`(${escapedTerm})`, "gi");
 
   return text.replace(regex, `<${highlightTag}>$1</${highlightTag}>`);
 }
@@ -179,14 +192,18 @@ export function extractDomain(url: string): string {
     const urlObj = new URL(url);
     return urlObj.hostname;
   } catch {
-    return '';
+    return "";
   }
 }
 
 /**
  * Pluralize a word
  */
-export function pluralize(word: string, count: number, plural?: string): string {
+export function pluralize(
+  word: string,
+  count: number,
+  plural?: string,
+): string {
   if (count === 1) {
     return word;
   }

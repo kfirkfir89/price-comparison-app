@@ -5,11 +5,11 @@ region:
   id: israel
   name: "Israel"
   code: IL
-  continent: asia  # Middle East
+  continent: asia # Middle East
   timezone: "Asia/Jerusalem"
   languages:
-    primary: "he"  # Hebrew
-    secondary: "en"  # English
+    primary: "he" # Hebrew
+    secondary: "en" # English
     supported: ["he", "en", "ar", "ru"]
 
 # Currency Configuration
@@ -18,13 +18,13 @@ currency:
   symbol: "₪"
   name: "Israeli New Shekel"
   subunit: "Agora"
-  subunit_ratio: 100  # 100 agorot = 1 shekel
+  subunit_ratio: 100 # 100 agorot = 1 shekel
 
   # Exchange rate handling
   exchange_rate:
-    source: "exchangerate-api.com"  # Or Bank of Israel
+    source: "exchangerate-api.com" # Or Bank of Israel
     update_frequency: "hourly"
-    cache_duration: 3600  # seconds
+    cache_duration: 3600 # seconds
     fallback_sources:
       - "openexchangerates.org"
       - "fixer.io"
@@ -33,7 +33,7 @@ currency:
   formatting:
     decimal_separator: "."
     thousands_separator: ","
-    position: "before"  # ₪5,499.99
+    position: "before" # ₪5,499.99
     example: "₪5,499.99"
 
 # Tax Configuration
@@ -41,14 +41,14 @@ taxation:
   vat:
     name: "VAT (Value Added Tax)"
     hebrew_name: "מע״ם (מס ערך מוסף)"
-    rate: 0.17  # 17%
+    rate: 0.17 # 17%
     applies_to:
       - "All goods and services"
       - "Imported products"
       - "Digital services"
 
     calculation:
-      method: "additive"  # Added on top of price
+      method: "additive" # Added on top of price
       formula: "price * (1 + vat_rate)"
       example: "₪1,000 + 17% = ₪1,170"
 
@@ -57,7 +57,7 @@ taxation:
       - "Fresh fruits and vegetables"
       - "Basic food items"
       - "Books and newspapers"
-    reduced_rate: 0.00  # 0% for specific items
+    reduced_rate: 0.00 # 0% for specific items
 
   income_tax_note: "Not applicable for price comparison app"
 
@@ -98,7 +98,7 @@ customs:
   # Category-specific import duties
   category_duties:
     electronics:
-      rate: 0.12  # 12%
+      rate: 0.12 # 12%
       items:
         - "Televisions"
         - "Cameras"
@@ -106,7 +106,7 @@ customs:
         - "General electronics"
 
     computers:
-      rate: 0.05  # 5%
+      rate: 0.05 # 5%
       items:
         - "Desktop computers"
         - "Laptops"
@@ -114,54 +114,54 @@ customs:
         - "Computer components"
 
     smartphones:
-      rate: 0.12  # 12%
+      rate: 0.12 # 12%
       items:
         - "Mobile phones"
         - "Smartphones"
         - "Cell phone accessories"
 
     clothing:
-      rate: 0.12  # 12%
+      rate: 0.12 # 12%
       items:
         - "Shirts, pants, dresses"
         - "Jackets, coats"
         - "Sportswear"
 
     shoes:
-      rate: 0.12  # 12%
+      rate: 0.12 # 12%
       items:
         - "All footwear"
         - "Sneakers, boots, sandals"
 
     jewelry:
-      rate: 0.12  # 12%
+      rate: 0.12 # 12%
       items:
         - "Watches"
         - "Rings, necklaces"
         - "Fashion jewelry"
 
     toys:
-      rate: 0.12  # 12%
+      rate: 0.12 # 12%
       items:
         - "Children's toys"
         - "Board games"
         - "Action figures"
 
     cosmetics:
-      rate: 0.12  # 12%
+      rate: 0.12 # 12%
       items:
         - "Makeup"
         - "Skincare products"
         - "Perfumes"
 
     books:
-      rate: 0.00  # 0% - duty free
+      rate: 0.00 # 0% - duty free
       items:
         - "Printed books"
         - "Educational materials"
 
     sports_equipment:
-      rate: 0.12  # 12%
+      rate: 0.12 # 12%
       items:
         - "Fitness equipment"
         - "Sports gear"
@@ -170,48 +170,48 @@ customs:
   # Import calculation example
   calculation_example:
     scenario: "iPhone 15 Pro from USA"
-    item_price: 1199  # USD
+    item_price: 1199 # USD
     shipping: 25
 
     steps:
       1:
         description: "Calculate CIF value"
         formula: "item_price + shipping"
-        result: 1224  # USD
+        result: 1224 # USD
 
       2:
         description: "Apply import duty (smartphones: 12%)"
         formula: "CIF * 0.12"
-        result: 146.88  # USD
+        result: 146.88 # USD
 
       3:
         description: "Calculate VAT base (CIF + duty)"
         formula: "1224 + 146.88"
-        result: 1370.88  # USD
+        result: 1370.88 # USD
 
       4:
         description: "Apply VAT (17%)"
         formula: "VAT_base * 0.17"
-        result: 233.05  # USD
+        result: 233.05 # USD
 
       5:
         description: "Total in USD"
         formula: "item + shipping + duty + VAT"
-        result: 1603.93  # USD
+        result: 1603.93 # USD
 
       6:
         description: "Convert to ILS (rate: 3.73)"
         formula: "total_USD * exchange_rate"
-        result: 5982.66  # ILS
+        result: 5982.66 # ILS
 
       7:
         description: "Add handling fee"
         formula: "total_ILS + 30"
-        result: 6012.66  # ILS
+        result: 6012.66 # ILS
 
-    total_cost: 6012.66  # ILS
-    original_price: 4472.27  # ILS (1199 * 3.73)
-    additional_fees: 1540.39  # ILS (34.4% of item price)
+    total_cost: 6012.66 # ILS
+    original_price: 4472.27 # ILS (1199 * 3.73)
+    additional_fees: 1540.39 # ILS (34.4% of item price)
 
   # Prohibited items
   prohibited_items:
@@ -343,7 +343,7 @@ market:
     - "Mobile shopping increasing"
 
   price_sensitivity: "high"
-  average_savings_threshold: "15%"  # Min savings to consider international
+  average_savings_threshold: "15%" # Min savings to consider international
 
 # Regulatory Notes
 regulations:

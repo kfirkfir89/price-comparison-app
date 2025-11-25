@@ -2,7 +2,7 @@
  * Service URLs and ports configuration
  */
 
-import { getEnvironment } from './environment';
+import { getEnvironment } from "./environment";
 
 /**
  * Service endpoint configuration
@@ -30,7 +30,7 @@ export interface ServiceEndpoints {
  */
 export function getServiceEndpoints(): ServiceEndpoints {
   const env = getEnvironment();
-  const host = 'localhost'; // TODO: Make this configurable for production
+  const host = "localhost"; // TODO: Make this configurable for production
 
   return {
     web: {
@@ -92,40 +92,43 @@ export function getServiceUrl(service: keyof ServiceEndpoints): string {
  */
 export const API_ROUTES = {
   // Health check
-  HEALTH: '/health',
+  HEALTH: "/health",
 
   // Search
-  SEARCH_LOCAL: '/api/v1/search/local',
-  SEARCH_GLOBAL: '/api/v1/search/global',
-  AUTOCOMPLETE: '/api/v1/search/autocomplete',
+  SEARCH_LOCAL: "/api/v1/search/local",
+  SEARCH_GLOBAL: "/api/v1/search/global",
+  AUTOCOMPLETE: "/api/v1/search/autocomplete",
 
   // Products
-  PRODUCTS: '/api/v1/products',
-  PRODUCT_DETAIL: '/api/v1/products/:id',
-  PRODUCT_COMPARE: '/api/v1/products/compare',
+  PRODUCTS: "/api/v1/products",
+  PRODUCT_DETAIL: "/api/v1/products/:id",
+  PRODUCT_COMPARE: "/api/v1/products/compare",
 
   // Stats
-  STATS: '/api/v1/stats',
-  STATS_GLOBAL_PRODUCTS: '/api/v1/stats/global-products',
+  STATS: "/api/v1/stats",
+  STATS_GLOBAL_PRODUCTS: "/api/v1/stats/global-products",
 
   // Recommendations
-  RECOMMENDATIONS: '/api/v1/recommendations/deals',
+  RECOMMENDATIONS: "/api/v1/recommendations/deals",
 
   // User preferences
-  USER_PREFERENCES: '/api/v1/user/preferences',
-  USER_MODE: '/api/v1/user/preferences/mode',
+  USER_PREFERENCES: "/api/v1/user/preferences",
+  USER_MODE: "/api/v1/user/preferences/mode",
 
   // Authentication (when enabled)
-  AUTH_LOGIN: '/api/v1/auth/login',
-  AUTH_REGISTER: '/api/v1/auth/register',
-  AUTH_REFRESH: '/api/v1/auth/refresh',
-  AUTH_LOGOUT: '/api/v1/auth/logout',
+  AUTH_LOGIN: "/api/v1/auth/login",
+  AUTH_REGISTER: "/api/v1/auth/register",
+  AUTH_REFRESH: "/api/v1/auth/refresh",
+  AUTH_LOGOUT: "/api/v1/auth/logout",
 } as const;
 
 /**
  * Build full API URL
  */
-export function buildApiUrl(route: string, params?: Record<string, string>): string {
+export function buildApiUrl(
+  route: string,
+  params?: Record<string, string>,
+): string {
   const baseUrl = getApiBaseUrl();
   let path = route;
 
@@ -156,10 +159,10 @@ export function getCORSConfig(): CORSConfig {
   const env = getEnvironment();
 
   return {
-    origin: env.CORS_ORIGIN.split(','),
+    origin: env.CORS_ORIGIN.split(","),
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Request-ID'],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Request-ID"],
   };
 }
 

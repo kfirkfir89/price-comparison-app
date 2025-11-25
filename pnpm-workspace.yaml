@@ -3,20 +3,20 @@
 
 packages:
   # Frontend and backend applications
-  - 'apps/*'
+  - "apps/*"
 
   # Microservices (Python-based services)
-  - 'services/*'
+  - "services/*"
 
   # Shared packages (TypeScript libraries)
-  - 'packages/*'
+  - "packages/*"
 
 # Exclude patterns (optional)
 # Add any directories that should not be treated as packages
 exclude:
-  - '**/node_modules/**'
-  - '**/dist/**'
-  - '**/build/**'
-  - '**/__pycache__/**'
-  - '**/coverage/**'
-  - '**/.pytest_cache/**'
+  - "**/node_modules/**"
+  - "**/dist/**"
+  - "**/build/**"
+  - "**/__pycache__/**"
+  - "**/coverage/**"
+  - "**/.pytest_cache/**"

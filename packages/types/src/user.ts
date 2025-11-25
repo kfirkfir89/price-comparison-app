@@ -3,7 +3,7 @@
  * Based on schema from 2.md (lines 332-391)
  */
 
-import { Currency, Country, ShoppingMode } from './enums';
+import { Currency, Country, ShoppingMode } from "./enums";
 
 /**
  * Smart deal preferences

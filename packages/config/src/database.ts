@@ -2,7 +2,7 @@
  * Database connection configurations
  */
 
-import { getEnvironment } from './environment';
+import { getEnvironment } from "./environment";
 
 export interface MongoDBConfig {
   uri: string;
@@ -116,8 +116,8 @@ export function getMeilisearchConfig(): MeilisearchConfig {
     host: env.MEILISEARCH_HOST,
     apiKey: env.MEILISEARCH_MASTER_KEY,
     indexes: {
-      products: 'products',
-      shops: 'shops',
+      products: "products",
+      shops: "shops",
     },
   };
 }
@@ -131,8 +131,8 @@ export function getQdrantConfig(): QdrantConfig {
     grpcPort: env.QDRANT_GRPC_PORT,
     apiKey: env.QDRANT_API_KEY,
     collections: {
-      products: 'products',
-      embeddings: 'product_embeddings',
+      products: "products",
+      embeddings: "product_embeddings",
     },
   };
 }
@@ -145,12 +145,12 @@ export function getRabbitMQConfig(): RabbitMQConfig {
     port: env.RABBITMQ_PORT,
     username: env.RABBITMQ_USERNAME,
     password: env.RABBITMQ_PASSWORD,
-    vhost: '/',
+    vhost: "/",
     queues: {
-      scraping: 'scraping_tasks',
-      normalization: 'normalization_tasks',
-      indexing: 'indexing_tasks',
-      recommendations: 'recommendation_tasks',
+      scraping: "scraping_tasks",
+      normalization: "normalization_tasks",
+      indexing: "indexing_tasks",
+      recommendations: "recommendation_tasks",
     },
   };
 }
